@@ -1,0 +1,36 @@
+name: Deploy consultant-command-center
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/consultant-command-center/**"
+      - ".github/workflows/deploy-consultant-command-center.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build consultant-command-center
+        run: yarn workspace consultant-command-center build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: apps/consultant-command-center/dist
