@@ -7,7 +7,6 @@ const initialFields = {
 	password: "",
 };
 
-const publicUrl = import.meta.env.BASE_URL;
 
 const Login = () => {
 	const [fields, setFields] = useState<typeof initialFields>(initialFields);
