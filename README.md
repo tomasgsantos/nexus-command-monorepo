@@ -23,9 +23,9 @@ The goal is to prove product quality across:
 
 This repository is a monorepo with separate apps and (future) shared packages.
 
-- `apps/consultant-command-center`: primary React + Vite web app
+- `apps/web`: primary React + Vite web app
 - `apps/mobile` (planned): Expo React Native app
-- `packages/`* (planned): shared API/services/state/design tokens for web + mobile reuse
+- `packages/*` (planned): shared API/services/state/design tokens for web + mobile reuse
 
 Why monorepo:
 
@@ -54,8 +54,8 @@ Why monorepo:
 
 The web app is deployed with GitHub Actions and GitHub Pages.
 
-- Workflow: `.github/workflows/deploy-consultant-command-center.yml`
-- Trigger: pushes to `main` affecting `apps/consultant-command-center/`**
+- Workflow: `.github/workflows/deploy-web.yml`
+- Trigger: pushes to `main` affecting `apps/web/**`
 - Deploy target: GitHub Pages at  
 [https://tomasgsantos.github.io/nexus-command-monorepo/](https://tomasgsantos.github.io/nexus-command-monorepo/)
 
@@ -73,15 +73,15 @@ Run all workspace dev tasks:
 yarn dev
 ```
 
-Run only consultant web app:
+Run only the web app:
 
 ```sh
-yarn workspace consultant-command-center dev
+yarn web:dev
 ```
 
-Build only consultant web app:
+Build only the web app:
 
 ```sh
-yarn workspace consultant-command-center build
+yarn web:build
 ```
 
