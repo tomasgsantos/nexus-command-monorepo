@@ -61,7 +61,7 @@ export function LoginCard({ onAuthSuccess }: LoginCardProps) {
         animate="visible"
         variants={fieldVariants}
       >
-        B2B Consultant Command Center
+        Consultant Command Center
       </motion.p>
 
       <form className="auth-form" onSubmit={onSubmit}>
