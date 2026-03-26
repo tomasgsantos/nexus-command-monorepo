@@ -1,0 +1,137 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--color-surface-lowest);
+}
+
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+  min-width: 360px;
+  max-width: 440px;
+  width: 100%;
+  border: 1px solid var(--color-outline-variant);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-1) 0;
+  line-height: 1;
+}
+
+.subheadline {
+  font-family: var(--font-body);
+  font-size: var(--text-title-sm);
+  color: var(--color-on-surface-variant);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-surface-high);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  font-size: var(--text-title-sm);
+  padding: var(--space-1) 0;
+  width: 100%;
+  outline: none;
+  transition: border-bottom-color 0.2s ease;
+}
+
+.input:focus {
+  border-bottom-color: var(--color-primary);
+}
+
+.primaryButton {
+  width: 100%;
+  background: var(--color-primary);
+  color: #000;
+  border: none;
+  border-radius: var(--radius-button);
+  padding: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-title-sm);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.divider {
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  margin: var(--space-1) 0;
+}
+
+.demoButton {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--color-primary-fixed);
+  font-family: var(--font-body);
+  font-size: var(--text-title-sm);
+  cursor: pointer;
+  padding: var(--space-2);
+  text-decoration: none;
+  margin-top: var(--space-1);
+  transition: text-decoration 0.15s ease;
+}
+
+.demoButton:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.demoButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: var(--color-error);
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  margin: 0;
+  padding-top: var(--space-1);
+}

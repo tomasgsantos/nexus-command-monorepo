@@ -10,10 +10,14 @@
     "web:preview": "yarn workspace web preview",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "supabase": "supabase",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
+    "supabase": "^2.84.4",
     "turbo": "^2.8.20",
     "typescript": "5.9.2"
   },
