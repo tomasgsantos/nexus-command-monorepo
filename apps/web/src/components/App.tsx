@@ -1,9 +1,11 @@
 import "../assets/styles/base.css";
 import "./App.css";
-import { useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { getSession, signOut } from "@nexus/api";
 import type { AuthUser } from "@nexus/api";
 import LoginPage from "../features/auth/LoginPage";
+
+const PulseDashboard = lazy(() => import("../features/pulse/PulseDashboard"));
 
 function App() {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -29,14 +31,12 @@ function App() {
   }
 
   return (
-    <div className="app-dashboard">
-      <div className="app-dashboard-content">
-        <p>Welcome, {user.email}</p>
-        <button type="button" className="app-signout-btn" onClick={handleLogout}>
-          Sign out
-        </button>
-      </div>
-    </div>
+    <Suspense fallback={<div className="app-loading" />}>
+      <PulseDashboard />
+      <button type="button" className="app-signout-btn app-signout-btn--overlay" onClick={handleLogout}>
+        Sign out
+      </button>
+    </Suspense>
   );
 }
 
