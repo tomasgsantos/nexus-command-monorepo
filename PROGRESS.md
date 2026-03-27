@@ -9,8 +9,9 @@
 ```
 main       ← user-controlled, triggers GitHub Pages deploy
   └── dev  ← integration branch (agents never touch main)
-        ├── feature/auth-scaffold   ← COMPLETE, pending PR to dev
-        ├── feature/pulse-dashboard ← next
+        ├── feature/auth-scaffold   ← MERGED ✅
+        ├── feature/pulse-dashboard ← COMPLETE, pending PR to dev
+        ├── feature/enterprise-scheduler ← next
         └── ...
 ```
 
@@ -48,35 +49,31 @@ main       ← user-controlled, triggers GitHub Pages deploy
 
 ## Epic 1 — Pulse Dashboard
 
-**Branch:** `feature/pulse-dashboard` (not started)
-**Status:** 🔲 NOT STARTED
+**Branch:** `feature/pulse-dashboard`
+**Status:** ✅ COMPLETE — Tester signed off. Pending user PR review into `dev`.
 
-### Scope (from spec.md)
-- Mapbox GL JS map with project nodes (lat/lng from `projects` table)
-- Project health indicators: On-Track / At-Risk / Failing
-- Supabase Realtime activity feed
-- "The Pulse" indicator component (4px glowing dot)
-- Node click → floating glassmorphism panel
-- KPI cards with Editorial Offsets
+### What was built
 
-### Key files to create
+| Layer | Contents | Status |
+|---|---|---|
+| `apps/api/src/projects/` | `project-queries.ts` · `realtime-subscriptions.ts` · `index.ts` | ✅ |
+| `supabase/migrations/` | `20260327_pulse_indexes.sql` — indexes on `owner_id`, `health_status` | ✅ |
+| `apps/web/src/features/pulse/` | `PulseDashboard.tsx` · `pulse.css` · `ProjectNode.tsx` · `PulseIndicator.tsx` · `ProjectPanel.tsx` · `KpiCard.tsx` · `use-realtime-feed.ts` · `use-pulse-map.ts` | ✅ |
 
-**Frontend Dev** (`apps/web/src/features/pulse/`):
-- `PulseDashboard.tsx`
-- `hooks/use-realtime-feed.ts`
-- `components/ProjectNode.tsx`
-- `components/PulseIndicator.tsx`
+### Contracts exported from `@nexus/api`
+- `Project` type
+- `fetchProjects()`, `fetchProject(id)`
+- `subscribeToProjects(callback)` → `RealtimeChannel`
 
-**Backend Dev** (`apps/api/src/projects/`, `supabase/`):
-- Project queries + realtime subscription module
-- Migration: projects table already exists — add indexes if needed
+### Dependencies added
+- `mapbox-gl`, `react-map-gl`, `@reduxjs/toolkit`, `redux`, `react-redux`
 
 ---
 
 ## Epic 2 — Enterprise Scheduler
 
 **Branch:** `feature/enterprise-scheduler` (not started)
-**Status:** 🔲 NOT STARTED
+**Status:** 🔲 NEXT
 
 ---
 
