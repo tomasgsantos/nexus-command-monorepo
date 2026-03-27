@@ -1,0 +1,56 @@
+:root {
+  /* Surface */
+  --color-surface-lowest: #0E0E0E;
+  --color-surface: #131313;
+  --color-surface-high: #2A2A2A;
+  --color-surface-highest: #353534;
+  --color-surface-bright: #3A3939;
+  --color-surface-variant: #353534;
+
+  /* Primary */
+  --color-primary: #75FF9E;
+  --color-primary-container: #00E676;
+  --color-primary-fixed: #62FF96;
+
+  /* Secondary */
+  --color-secondary: #FFF3D2;
+  --color-secondary-container: #FDD400;
+
+  /* Tertiary / Error */
+  --color-tertiary: #FFDDDC;
+  --color-tertiary-container: #FFB6B6;
+  --color-error: #FFB4AB;
+
+  /* On-surface */
+  --color-on-surface: #E5E2E1;
+  --color-on-surface-variant: #BACBB9;
+  --color-outline-variant: rgba(59, 74, 61, 0.2);
+
+  /* Typography */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Sora', sans-serif;
+
+  --text-display-lg: 3.5rem;
+  --text-headline-md: 1.75rem;
+  --text-title-sm: 1rem;
+  --text-label-sm: 0.6875rem;
+
+  /* Spacing (8px grid) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 2.25rem;
+  --space-6: 3rem;
+
+  /* Radius */
+  --radius-button: 4px;
+  --radius-card: 8px;
+
+  /* Glass */
+  --glass-bg: rgba(53, 53, 52, 0.4);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+
+  /* Gradient accent */
+  --gradient-accent: linear-gradient(135deg, rgba(117,255,158,0.1), rgba(0,230,118,0.1));
+}
