@@ -1,3 +1,2 @@
-:root {
-  --color-primary: light-dark(#fff, #000);
-}
+/* Design tokens are defined in @nexus/ui/src/tokens.css and loaded via base.css. */
+/* Add only project-specific overrides here — do not re-declare token names. */

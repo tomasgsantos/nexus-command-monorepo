@@ -1,0 +1,51 @@
+.app-loading {
+  min-height: 100vh;
+  background-color: var(--color-surface-lowest);
+}
+
+.app-dashboard {
+  min-height: 100vh;
+  background-color: var(--color-surface-lowest);
+  color: var(--color-on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+}
+
+.app-dashboard-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.app-dashboard-content p {
+  margin: 0;
+  font-size: var(--text-title-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.app-signout-btn {
+  background: transparent;
+  border: 1px solid var(--color-surface-high);
+  color: var(--color-on-surface-variant);
+  border-radius: var(--radius-button);
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.app-signout-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.app-signout-btn--overlay {
+  position: fixed;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 30;
+}
