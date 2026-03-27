@@ -6,35 +6,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
-// ---------------------------------------------------------------------------
-// Module-level mock for @nexus/api
-// ---------------------------------------------------------------------------
-vi.mock('@nexus/api', () => ({
-  signIn: vi.fn(),
-  signInDemo: vi.fn(),
-  signOut: vi.fn(),
-  getSession: vi.fn(),
-}));
+import { setupNexusApiMock, mockSignIn, mockSignInDemo } from './__mocks__/nexus-api';
 
-import { signIn, signInDemo } from '@nexus/api';
+setupNexusApiMock();
+
 import { useLoginForm } from './hooks/use-login-form';
 import { useDemoLogin } from './hooks/use-demo-login';
+import { mockUser as createMockUser } from './__mocks__/user';
 
-// ---------------------------------------------------------------------------
-// Shared fixtures
-// ---------------------------------------------------------------------------
-const mockUser = {
-  id: 'user-123',
-  email: 'test@nexus.app',
-  profile: {
-    id: 'user-123',
-    role: 'consultant' as const,
-    display_name: 'Test User',
-    avatar_url: null,
-  },
-};
-
-const mockDemoUser = {
+const mockUser = createMockUser();
+const mockDemoUser = createMockUser({
   id: '00000000-0000-0000-0000-000000000001',
   email: 'demo@nexus.app',
   profile: {
@@ -43,18 +24,16 @@ const mockDemoUser = {
     display_name: 'Demo User',
     avatar_url: null,
   },
-};
+})
 
-// ---------------------------------------------------------------------------
-// useLoginForm
-// ---------------------------------------------------------------------------
+
 describe('useLoginForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('calls signIn with the provided email and password', async () => {
-    (signIn as ReturnType<typeof vi.fn>).mockResolvedValue(mockUser);
+    mockSignIn.mockResolvedValue(mockUser);
     const onSuccess = vi.fn();
 
     const { result } = renderHook(() => useLoginForm(onSuccess));
@@ -63,12 +42,12 @@ describe('useLoginForm', () => {
       await result.current.login('test@nexus.app', 'secret');
     });
 
-    expect(signIn).toHaveBeenCalledOnce();
-    expect(signIn).toHaveBeenCalledWith('test@nexus.app', 'secret');
+    expect(mockSignIn).toHaveBeenCalledOnce();
+    expect(mockSignIn).toHaveBeenCalledWith('test@nexus.app', 'secret');
   });
 
   it('calls onSuccess with the returned user on a successful sign-in', async () => {
-    (signIn as ReturnType<typeof vi.fn>).mockResolvedValue(mockUser);
+    mockSignIn.mockResolvedValue(mockUser);
     const onSuccess = vi.fn();
 
     const { result } = renderHook(() => useLoginForm(onSuccess));
@@ -82,7 +61,7 @@ describe('useLoginForm', () => {
   });
 
   it('sets error state with the error message when sign-in fails', async () => {
-    (signIn as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Invalid credentials'));
+    mockSignIn.mockRejectedValue(new Error('Invalid credentials'));
     const onSuccess = vi.fn();
 
     const { result } = renderHook(() => useLoginForm(onSuccess));
@@ -96,7 +75,7 @@ describe('useLoginForm', () => {
   });
 
   it('uses a fallback error message for non-Error rejections', async () => {
-    (signIn as ReturnType<typeof vi.fn>).mockRejectedValue('raw string error');
+    mockSignIn.mockRejectedValue('raw string error');
     const onSuccess = vi.fn();
 
     const { result } = renderHook(() => useLoginForm(onSuccess));
@@ -110,22 +89,19 @@ describe('useLoginForm', () => {
 
   it('loading is true during sign-in and false after success', async () => {
     let resolveSignIn!: (v: typeof mockUser) => void;
-    (signIn as ReturnType<typeof vi.fn>).mockImplementation(
+    mockSignIn.mockImplementation(
       () => new Promise((res) => { resolveSignIn = res; })
     );
     const onSuccess = vi.fn();
 
     const { result } = renderHook(() => useLoginForm(onSuccess));
 
-    // Start login — do not await yet
     act(() => {
       result.current.login('test@nexus.app', 'secret');
     });
 
-    // While the promise is pending loading should be true
     expect(result.current.loading).toBe(true);
 
-    // Resolve the promise
     await act(async () => {
       resolveSignIn(mockUser);
     });
@@ -134,7 +110,7 @@ describe('useLoginForm', () => {
   });
 
   it('loading is false after a failed sign-in', async () => {
-    (signIn as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Boom'));
+    mockSignIn.mockRejectedValue(new Error('Boom'));
     const onSuccess = vi.fn();
 
     const { result } = renderHook(() => useLoginForm(onSuccess));
@@ -147,21 +123,17 @@ describe('useLoginForm', () => {
   });
 
   it('clears a previous error when login is retried', async () => {
-    // First call fails
-    (signIn as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('First failure'));
-    // Second call succeeds
-    (signIn as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockUser);
+    mockSignIn.mockRejectedValueOnce(new Error('First failure'));
+    mockSignIn.mockResolvedValueOnce(mockUser);
 
     const onSuccess = vi.fn();
     const { result } = renderHook(() => useLoginForm(onSuccess));
 
-    // Fail first
     await act(async () => {
       await result.current.login('test@nexus.app', 'bad');
     });
     expect(result.current.error).toBe('First failure');
 
-    // Retry and succeed — error must be cleared
     await act(async () => {
       await result.current.login('test@nexus.app', 'correct');
     });
@@ -170,16 +142,13 @@ describe('useLoginForm', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// useDemoLogin
-// ---------------------------------------------------------------------------
 describe('useDemoLogin', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('calls signInDemo when loginAsDemo is invoked', async () => {
-    (signInDemo as ReturnType<typeof vi.fn>).mockResolvedValue(mockDemoUser);
+    mockSignInDemo.mockResolvedValue(mockDemoUser);
 
     const { result } = renderHook(() => useDemoLogin());
 
@@ -187,11 +156,11 @@ describe('useDemoLogin', () => {
       await result.current.loginAsDemo();
     });
 
-    expect(signInDemo).toHaveBeenCalledOnce();
+    expect(mockSignInDemo).toHaveBeenCalledOnce();
   });
 
   it('returns the user and calls no onSuccess (hook returns user directly)', async () => {
-    (signInDemo as ReturnType<typeof vi.fn>).mockResolvedValue(mockDemoUser);
+    mockSignInDemo.mockResolvedValue(mockDemoUser);
 
     const { result } = renderHook(() => useDemoLogin());
 
@@ -204,7 +173,7 @@ describe('useDemoLogin', () => {
   });
 
   it('sets error state when demo login fails', async () => {
-    (signInDemo as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Demo unavailable'));
+    mockSignInDemo.mockRejectedValue(new Error('Demo unavailable'));
 
     const { result } = renderHook(() => useDemoLogin());
 
@@ -216,7 +185,7 @@ describe('useDemoLogin', () => {
   });
 
   it('returns null when demo login fails', async () => {
-    (signInDemo as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Boom'));
+    mockSignInDemo.mockRejectedValue(new Error('Boom'));
 
     const { result } = renderHook(() => useDemoLogin());
 
@@ -229,7 +198,7 @@ describe('useDemoLogin', () => {
   });
 
   it('uses a fallback error message for non-Error rejections', async () => {
-    (signInDemo as ReturnType<typeof vi.fn>).mockRejectedValue('opaque error');
+    mockSignInDemo.mockRejectedValue('opaque error');
 
     const { result } = renderHook(() => useDemoLogin());
 
@@ -242,7 +211,7 @@ describe('useDemoLogin', () => {
 
   it('loading is true during demo login and false after success', async () => {
     let resolveDemoLogin!: (v: typeof mockDemoUser) => void;
-    (signInDemo as ReturnType<typeof vi.fn>).mockImplementation(
+    mockSignInDemo.mockImplementation(
       () => new Promise((res) => { resolveDemoLogin = res; })
     );
 
@@ -262,7 +231,7 @@ describe('useDemoLogin', () => {
   });
 
   it('loading is false after a failed demo login', async () => {
-    (signInDemo as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('fail'));
+    mockSignInDemo.mockRejectedValue(new Error('fail'));
 
     const { result } = renderHook(() => useDemoLogin());
 

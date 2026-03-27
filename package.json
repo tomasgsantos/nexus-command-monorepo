@@ -8,6 +8,7 @@
     "web:build": "yarn workspace web build",
     "web:lint": "yarn workspace web lint",
     "web:preview": "yarn workspace web preview",
+    "web:test": "yarn workspace web test",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
