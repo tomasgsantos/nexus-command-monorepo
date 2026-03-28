@@ -152,7 +152,7 @@ describe('useRealtimeFeed', () => {
     // Realtime events are raw DB rows — no profile join, so owner_display_name is absent.
     const { owner_display_name: _, ...rawProjectB } = projectB;
     act(() => {
-      realtimeCallback!(rawProjectB as Parameters<typeof realtimeCallback>[0]);
+      realtimeCallback!(rawProjectB as ProjectWithOwner);
     });
 
     expect(result.current.projects).toHaveLength(2);
