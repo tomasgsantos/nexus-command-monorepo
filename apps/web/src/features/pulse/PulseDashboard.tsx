@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Map, { Marker } from 'react-map-gl';
-import type { Project } from '@nexus/api';
+import type { ProjectWithOwner } from '@nexus/api';
 import { useRealtimeFeed } from './hooks/use-realtime-feed';
 import { usePulseMap, MAPBOX_TOKEN, MAP_STYLE } from './hooks/use-pulse-map';
 import { ProjectPanel } from './components/ProjectPanel';
@@ -10,7 +10,7 @@ import { PulseIndicator } from './components/PulseIndicator';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './pulse.css';
 
-function computeKpis(projects: Project[]) {
+function computeKpis(projects: ProjectWithOwner[]) {
   const total = projects.length;
   const onTrack = projects.filter((p) => p.health_status === 'on_track').length;
   const atRisk = projects.filter((p) => p.health_status === 'at_risk').length;
@@ -19,11 +19,11 @@ function computeKpis(projects: Project[]) {
 }
 
 export default function PulseDashboard() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectWithOwner | null>(null);
   const { projects, loading, error } = useRealtimeFeed();
   const { viewState, onMove } = usePulseMap();
 
-  const handleNodeClick = useCallback((project: Project) => {
+  const handleNodeClick = useCallback((project: ProjectWithOwner) => {
     setSelectedProject(project);
   }, []);
 
