@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchProjects, subscribeToProjects } from '@nexus/api';
-import type { Project } from '@nexus/api';
+import type { ProjectWithOwner } from '@nexus/api';
 
 export function useRealtimeFeed() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectWithOwner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const handleRealtimeUpdate = useCallback((updated: Project) => {
+  const handleRealtimeUpdate = useCallback((updated: ProjectWithOwner) => {
     setProjects((prev) => {
       const index = prev.findIndex((p) => p.id === updated.id);
       if (index === -1) return [...prev, updated];

@@ -24,23 +24,30 @@ import { fetchProjects, fetchProject } from '@nexus/api';
 // ---------------------------------------------------------------------------
 // Fixtures
 // ---------------------------------------------------------------------------
-const projectA = {
+// Raw DB rows returned by the mock (profiles joined as nested object)
+const rawA = {
   id: 'p-1',
   title: 'Alpha',
   health_status: 'on_track' as const,
   lat: 40.71,
   lng: -74.0,
   owner_id: 'u-1',
+  profiles: { display_name: 'Sarah Chen' },
 };
 
-const projectB = {
+const rawB = {
   id: 'p-2',
   title: 'Beta',
   health_status: 'at_risk' as const,
   lat: null,
   lng: null,
   owner_id: 'u-2',
+  profiles: { display_name: 'Marcus Okafor' },
 };
+
+// Shaped results after transformation in project-queries
+const projectA = { id: 'p-1', title: 'Alpha', health_status: 'on_track' as const, lat: 40.71, lng: -74.0, owner_id: 'u-1', owner_display_name: 'Sarah Chen' };
+const projectB = { id: 'p-2', title: 'Beta',  health_status: 'at_risk'  as const, lat: null,  lng: null,  owner_id: 'u-2', owner_display_name: 'Marcus Okafor' };
 
 // ---------------------------------------------------------------------------
 // fetchProjects
@@ -52,12 +59,12 @@ describe('fetchProjects', () => {
   });
 
   it('queries the projects table ordered by title', async () => {
-    mockOrder.mockReturnValue({ data: [projectA, projectB], error: null });
+    mockOrder.mockReturnValue({ data: [rawA, rawB], error: null });
 
     const result = await fetchProjects();
 
     expect(mockFrom).toHaveBeenCalledWith('projects');
-    expect(mockSelect).toHaveBeenCalledWith('*');
+    expect(mockSelect).toHaveBeenCalledWith('*, profiles!owner_id(display_name)');
     expect(mockOrder).toHaveBeenCalledWith('title');
     expect(result).toEqual([projectA, projectB]);
   });
@@ -90,12 +97,12 @@ describe('fetchProject', () => {
   });
 
   it('queries by id using eq and maybeSingle', async () => {
-    mockMaybeSingle.mockReturnValue({ data: projectA, error: null });
+    mockMaybeSingle.mockReturnValue({ data: rawA, error: null });
 
     const result = await fetchProject('p-1');
 
     expect(mockFrom).toHaveBeenCalledWith('projects');
-    expect(mockSelect).toHaveBeenCalledWith('*');
+    expect(mockSelect).toHaveBeenCalledWith('*, profiles!owner_id(display_name)');
     expect(mockEq).toHaveBeenCalledWith('id', 'p-1');
     expect(result).toEqual(projectA);
   });

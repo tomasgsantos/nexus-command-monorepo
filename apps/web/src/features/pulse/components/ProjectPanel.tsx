@@ -1,13 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Project } from '@nexus/api';
+import type { ProjectWithOwner } from '@nexus/api';
 import { PulseIndicator } from './PulseIndicator';
 
 interface ProjectPanelProps {
-  project: Project | null;
+  project: ProjectWithOwner | null;
   onClose: () => void;
 }
 
-const HEALTH_LABELS: Record<Project['health_status'], string> = {
+const HEALTH_LABELS: Record<ProjectWithOwner['health_status'], string> = {
   on_track: 'On Track',
   at_risk: 'At Risk',
   failing: 'Failing',
@@ -41,11 +41,17 @@ export function ProjectPanel({ project, onClose }: ProjectPanelProps) {
           <dl className="project-panel__details">
             <div className="project-panel__row">
               <dt>Owner</dt>
-              <dd>{project.owner_id}</dd>
+              <dd>{project.owner_display_name}</dd>
             </div>
-            {project.lat != null && project.lng != null && (
+            {project.city && (
               <div className="project-panel__row">
                 <dt>Location</dt>
+                <dd>{project.city}, {project.country}</dd>
+              </div>
+            )}
+            {project.lat != null && project.lng != null && (
+              <div className="project-panel__row">
+                <dt>Coordinates</dt>
                 <dd>{project.lat.toFixed(4)}, {project.lng.toFixed(4)}</dd>
               </div>
             )}

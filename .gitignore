@@ -41,3 +41,9 @@ lerna-debug.log*
 
 # Misc
 .vercel/
+
+# Yarn / Node temp files (can land in repo root)
+yarn--*/
+v8-compile-cache-*/
+# Vitest/Vite cache (hash-named dirs that can land in root)
+[A-Z][a-zA-Z0-9]??-*/
