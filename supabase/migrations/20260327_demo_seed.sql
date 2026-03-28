@@ -9,9 +9,9 @@ declare
   sarah_id     uuid := '00000000-0000-0000-0000-000000000002';
   marcus_id    uuid := '00000000-0000-0000-0000-000000000003';
   lena_id      uuid := '00000000-0000-0000-0000-000000000004';
-  proj_alpha    uuid := gen_random_uuid();
-  proj_beta     uuid := gen_random_uuid();
-  proj_gamma    uuid := gen_random_uuid();
+  proj_alpha    uuid := '00000000-0000-0000-0001-000000000001';
+  proj_beta     uuid := '00000000-0000-0000-0001-000000000002';
+  proj_gamma    uuid := '00000000-0000-0000-0001-000000000003';
 begin
 
 -- -------------------------------------------------------
@@ -96,11 +96,11 @@ on conflict (id) do nothing;
 -- -------------------------------------------------------
 -- Sample projects (each owned by a different user)
 -- -------------------------------------------------------
-insert into public.projects (id, title, health_status, lat, lng, owner_id, city, country)
+insert into public.projects (id, title, health_status, lat, lng, owner_id)
 values
-  (proj_alpha, 'Alpha Rebrand', 'on_track',   40.7128, -74.0060, sarah_id,  'New York',  'United States'),
-  (proj_beta,  'Beta Platform', 'at_risk',    51.5074,  -0.1278, marcus_id, 'London',    'United Kingdom'),
-  (proj_gamma, 'Gamma Launch',  'failing',    35.6762, 139.6503, lena_id,   'Tokyo',     'Japan')
+  (proj_alpha, 'Alpha Rebrand', 'on_track',   40.7128, -74.0060, sarah_id),
+  (proj_beta,  'Beta Platform', 'at_risk',    51.5074,  -0.1278, marcus_id),
+  (proj_gamma, 'Gamma Launch',  'failing',    35.6762, 139.6503, lena_id)
 on conflict (id) do nothing;
 
 -- -------------------------------------------------------

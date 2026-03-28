@@ -1,9 +1,10 @@
 export default {
   plugins: {
-   'postcss-preset-env': {
+    'postcss-nested': {},
+    'postcss-preset-env': {
       stage: 2,
       features: {
-        'nesting-rules': true,
+        'nesting-rules': false,
       },
       autoprefixer: {
         grid: 'autoplace'
