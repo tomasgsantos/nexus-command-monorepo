@@ -170,7 +170,7 @@ describe('useRealtimeFeed', () => {
   });
 
   it('does not update state after unmount (cancelled flag)', async () => {
-    let resolveFetch!: (v: Project[]) => void;
+    let resolveFetch!: (v: ProjectWithOwner[]) => void;
     mockFetchProjects.mockImplementation(
       () => new Promise((res) => { resolveFetch = res; }),
     );
