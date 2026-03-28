@@ -19,6 +19,8 @@ export interface Database {
           lat: number | null;
           lng: number | null;
           owner_id: string;
+          city: string | null;
+          country: string | null;
         };
         Insert: Omit<Database['public']['Tables']['projects']['Row'], 'id'> & { id?: string };
         Update: Partial<Database['public']['Tables']['projects']['Row']>;
