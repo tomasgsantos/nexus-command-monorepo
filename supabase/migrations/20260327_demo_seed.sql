@@ -6,13 +6,16 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 do $$
 declare
   demo_user_id uuid := '00000000-0000-0000-0000-000000000001';
+  sarah_id     uuid := '00000000-0000-0000-0000-000000000002';
+  marcus_id    uuid := '00000000-0000-0000-0000-000000000003';
+  lena_id      uuid := '00000000-0000-0000-0000-000000000004';
   proj_alpha    uuid := gen_random_uuid();
   proj_beta     uuid := gen_random_uuid();
   proj_gamma    uuid := gen_random_uuid();
 begin
 
 -- -------------------------------------------------------
--- Demo auth user (Supabase auth.users insert pattern)
+-- Auth users (demo + 3 consultants)
 -- -------------------------------------------------------
 insert into auth.users (
   id,
@@ -32,42 +35,72 @@ insert into auth.users (
   email_change_token_new,
   email_change
 )
-values (
-  demo_user_id,
-  '00000000-0000-0000-0000-000000000000',
-  'authenticated',
-  'authenticated',
-  'demo@nexus.app',
-  -- bcrypt hash of 'nexus-demo-2025'
-  extensions.crypt('nexus-demo-2025', extensions.gen_salt('bf')),
-  now(),
-  now(),
-  now(),
-  '{"provider":"email","providers":["email"]}',
-  '{}',
-  false,
-  '',
-  '',
-  '',
-  ''
-)
+values
+  (
+    demo_user_id,
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    'demo@nexus.app',
+    extensions.crypt('nexus-demo-2025', extensions.gen_salt('bf')),
+    now(), now(), now(),
+    '{"provider":"email","providers":["email"]}',
+    '{}', false, '', '', '', ''
+  ),
+  (
+    sarah_id,
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    'sarah.chen@nexus.app',
+    extensions.crypt('nexus-demo-2025', extensions.gen_salt('bf')),
+    now(), now(), now(),
+    '{"provider":"email","providers":["email"]}',
+    '{}', false, '', '', '', ''
+  ),
+  (
+    marcus_id,
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    'marcus.okafor@nexus.app',
+    extensions.crypt('nexus-demo-2025', extensions.gen_salt('bf')),
+    now(), now(), now(),
+    '{"provider":"email","providers":["email"]}',
+    '{}', false, '', '', '', ''
+  ),
+  (
+    lena_id,
+    '00000000-0000-0000-0000-000000000000',
+    'authenticated',
+    'authenticated',
+    'lena.kovac@nexus.app',
+    extensions.crypt('nexus-demo-2025', extensions.gen_salt('bf')),
+    now(), now(), now(),
+    '{"provider":"email","providers":["email"]}',
+    '{}', false, '', '', '', ''
+  )
 on conflict (id) do nothing;
 
 -- -------------------------------------------------------
--- Demo profile
+-- Profiles (demo + 3 consultants)
 -- -------------------------------------------------------
 insert into public.profiles (id, role, display_name, avatar_url)
-values (demo_user_id, 'demo', 'Demo User', null)
+values
+  (demo_user_id, 'demo',       'Demo User',     null),
+  (sarah_id,     'consultant', 'Sarah Chen',    null),
+  (marcus_id,    'consultant', 'Marcus Okafor', null),
+  (lena_id,      'admin',      'Lena Kovač',    null)
 on conflict (id) do nothing;
 
 -- -------------------------------------------------------
--- Sample projects
+-- Sample projects (each owned by a different user)
 -- -------------------------------------------------------
-insert into public.projects (id, title, health_status, lat, lng, owner_id)
+insert into public.projects (id, title, health_status, lat, lng, owner_id, city, country)
 values
-  (proj_alpha, 'Alpha Rebrand', 'on_track',   40.7128, -74.0060, demo_user_id),
-  (proj_beta,  'Beta Platform', 'at_risk',    51.5074,  -0.1278, demo_user_id),
-  (proj_gamma, 'Gamma Launch',  'failing',    35.6762, 139.6503, demo_user_id)
+  (proj_alpha, 'Alpha Rebrand', 'on_track',   40.7128, -74.0060, sarah_id,  'New York',  'United States'),
+  (proj_beta,  'Beta Platform', 'at_risk',    51.5074,  -0.1278, marcus_id, 'London',    'United Kingdom'),
+  (proj_gamma, 'Gamma Launch',  'failing',    35.6762, 139.6503, lena_id,   'Tokyo',     'Japan')
 on conflict (id) do nothing;
 
 -- -------------------------------------------------------

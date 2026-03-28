@@ -14,31 +14,37 @@ import {
 
 setupNexusApiMock();
 
-import type { Project } from '@nexus/api';
+import type { ProjectWithOwner } from '@nexus/api';
 import { useRealtimeFeed } from './hooks/use-realtime-feed';
 
 // ---------------------------------------------------------------------------
 // Fixtures
 // ---------------------------------------------------------------------------
-const projectA: Project = {
+const projectA: ProjectWithOwner = {
   id: 'p-1',
   title: 'Alpha',
   health_status: 'on_track',
   lat: 40.71,
   lng: -74.0,
   owner_id: 'u-1',
+  owner_display_name: 'Sarah Chen',
+  city: 'New York',
+  country: 'United States',
 };
 
-const projectB: Project = {
+const projectB: ProjectWithOwner = {
   id: 'p-2',
   title: 'Beta',
   health_status: 'at_risk',
   lat: null,
   lng: null,
   owner_id: 'u-2',
+  owner_display_name: 'Marcus Okafor',
+  city: 'London',
+  country: 'United Kingdom',
 };
 
-const projectAUpdated: Project = {
+const projectAUpdated: ProjectWithOwner = {
   ...projectA,
   health_status: 'failing',
 };
@@ -50,7 +56,7 @@ const projectAUpdated: Project = {
 /** Captures the realtime callback passed to subscribeToProjects. */
 function captureRealtimeCallback() {
   const call = mockSubscribeToProjects.mock.calls[0];
-  return call?.[0] as ((project: Project) => void) | undefined;
+  return call?.[0] as ((project: ProjectWithOwner) => void) | undefined;
 }
 
 // ---------------------------------------------------------------------------
