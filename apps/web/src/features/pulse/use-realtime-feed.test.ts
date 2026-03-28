@@ -149,12 +149,14 @@ describe('useRealtimeFeed', () => {
 
     const realtimeCallback = captureRealtimeCallback();
 
+    // Realtime events are raw DB rows — no profile join, so owner_display_name is absent.
+    const { owner_display_name: _, ...rawProjectB } = projectB;
     act(() => {
-      realtimeCallback!(projectB);
+      realtimeCallback!(rawProjectB as Parameters<typeof realtimeCallback>[0]);
     });
 
     expect(result.current.projects).toHaveLength(2);
-    expect(result.current.projects[1]).toEqual(projectB);
+    expect(result.current.projects[1]).toEqual({ ...rawProjectB, owner_display_name: 'Unknown' });
   });
 
   it('unsubscribes from the realtime channel on unmount', async () => {
