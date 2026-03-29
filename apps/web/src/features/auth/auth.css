@@ -65,14 +65,14 @@
   padding: var(--space-1) 0;
   outline: none;
   transition: border-color 0.2s ease;
-}
 
-.auth-input:focus {
-  border-bottom-color: var(--color-primary);
-}
+  &:focus {
+    border-bottom-color: var(--color-primary);
+  }
 
-.auth-input::placeholder {
-  color: var(--color-surface-bright);
+  &::placeholder {
+    color: var(--color-surface-bright);
+  }
 }
 
 .auth-error {
@@ -94,15 +94,15 @@
   transition: opacity 0.15s ease;
   width: 100%;
   margin-top: var(--space-1);
-}
 
-.auth-btn-primary:hover:not(:disabled) {
-  opacity: 0.88;
-}
+  &:hover:not(:disabled) {
+    opacity: 0.88;
+  }
 
-.auth-btn-primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
 .auth-divider {
@@ -111,14 +111,14 @@
   gap: var(--space-2);
   color: var(--color-on-surface-variant);
   font-size: var(--text-label-sm);
-}
 
-.auth-divider::before,
-.auth-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--color-surface-bright);
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-surface-bright);
+  }
 }
 
 .auth-btn-ghost {
@@ -135,15 +135,15 @@
   text-underline-offset: 3px;
   text-decoration-color: transparent;
   transition: text-decoration-color 0.2s ease, opacity 0.15s ease;
-}
 
-.auth-btn-ghost:hover:not(:disabled) {
-  text-decoration-color: var(--color-primary-fixed);
-}
+  &:hover:not(:disabled) {
+    text-decoration-color: var(--color-primary-fixed);
+  }
 
-.auth-btn-ghost:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
 .auth-demo-label {

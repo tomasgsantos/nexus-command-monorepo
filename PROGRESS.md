@@ -70,6 +70,34 @@ main       ← user-controlled, triggers GitHub Pages deploy
 
 ---
 
+## Epic 1 Enhancement — Admin Project CRUD
+
+**Branch:** `feature/pulse-dashboard`
+**Status:** ✅ COMPLETE — Tester signed off (35/35 tests passing). Pending user PR review into `dev`.
+
+### What was built
+
+| Layer | Contents | Status |
+|---|---|---|
+| `supabase/migrations/` | `20260329090000_project_write_rls.sql` — admin-only INSERT/UPDATE/DELETE policies on `projects` | ✅ |
+| `apps/api/src/types/` | `Project.ts` — `Project`, `HealthStatus`, `CreateProjectInput`, `UpdateProjectInput` types | ✅ |
+| `apps/api/src/projects/` | `project-mutations.ts` · `geocoding.ts` — createProject, updateProject, deleteProject, geocodeAddress | ✅ |
+| `apps/web/src/features/pulse/` | `ProjectFormModal.tsx` · `use-project-form.ts` · `utils/submit-project.ts` · `utils/reverse-geocode.ts` | ✅ |
+| `apps/web/src/features/pulse/` | `ProjectPanel.tsx` updated (Edit/Delete, admin-only) · `PulseDashboard.tsx` updated (New Project button, map-pick mode) · `use-realtime-feed.ts` updated (refresh()) | ✅ |
+
+### New contracts exported from `@nexus/api`
+- `createProject(data)`, `updateProject(id, data)`, `deleteProject(id)`
+- `geocodeAddress(address)` → `{ lat, lng }`
+- `CreateProjectInput`, `UpdateProjectInput`, `HealthStatus` types
+
+### Features
+- Admin-only "New Project" button on Pulse Dashboard
+- ProjectFormModal: title, health status dropdown, location via address input or map-click
+- Edit/Delete controls on ProjectPanel (admin-only, delete requires confirmation)
+- Realtime propagation automatic via existing subscribeToProjects channel
+
+---
+
 ## Epic 2 — Enterprise Scheduler
 
 **Branch:** `feature/enterprise-scheduler` (not started)

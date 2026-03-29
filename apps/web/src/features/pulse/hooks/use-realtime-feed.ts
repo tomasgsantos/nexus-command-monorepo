@@ -46,5 +46,11 @@ export function useRealtimeFeed() {
     };
   }, [handleRealtimeUpdate]);
 
-  return { projects, loading, error };
+  const refresh = useCallback(() => {
+    fetchProjects()
+      .then((data) => setProjects(data))
+      .catch(() => { /* realtime will catch up */ });
+  }, []);
+
+  return { projects, loading, error, refresh };
 }
