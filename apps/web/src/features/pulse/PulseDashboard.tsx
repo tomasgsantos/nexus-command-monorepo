@@ -107,6 +107,16 @@ export default function PulseDashboard({ user }: PulseDashboardProps) {
             />
           </Marker>
         ))}
+
+        {modalOpen && form.locationMode === 'pick' && form.fields.lat != null && form.fields.lng != null && (
+          <Marker
+            longitude={form.fields.lng}
+            latitude={form.fields.lat}
+            anchor="bottom"
+          >
+            <div className="pulse-map-marker--pick-preview" />
+          </Marker>
+        )}
       </Map>
 
       <RealtimeNotification notification={notification} onDismiss={clearNotification} />

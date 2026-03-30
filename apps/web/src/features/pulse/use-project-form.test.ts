@@ -35,7 +35,7 @@ function renderForm() {
 describe('useProjectForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockReverseGeocode.mockResolvedValue(null);
+    mockReverseGeocode.mockResolvedValue({ address: null, city: null, country: null });
   });
 
   // ── Initial state ────────────────────────────────────────
@@ -228,9 +228,10 @@ describe('useProjectForm', () => {
   // ── setMapCoordinates calls reverseGeocode ──────────────
 
   it('sets lat/lng immediately and calls reverseGeocode', async () => {
-    let resolveGeocode!: (v: string) => void;
+    type GeocodeResult = { address: string | null; city: string | null; country: string | null };
+    let resolveGeocode!: (v: GeocodeResult) => void;
     mockReverseGeocode.mockImplementation(
-      () => new Promise<string>((res) => { resolveGeocode = res; }),
+      () => new Promise<GeocodeResult>((res) => { resolveGeocode = res; }),
     );
 
     const { result } = renderForm();
@@ -247,7 +248,7 @@ describe('useProjectForm', () => {
 
     // Resolve the reverse geocode
     await act(async () => {
-      resolveGeocode('Brooklyn, NY');
+      resolveGeocode({ address: 'Brooklyn, NY', city: 'Brooklyn', country: 'US' });
     });
 
     expect(result.current.fields.address).toBe('Brooklyn, NY');

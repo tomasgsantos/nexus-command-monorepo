@@ -39,6 +39,8 @@ describe('submitProject', () => {
       address: 'London, UK',
       lat: null,
       lng: null,
+      city: null,
+      country: null,
       locationMode: 'type',
       editingId: null,
     });
@@ -60,6 +62,8 @@ describe('submitProject', () => {
       address: '',
       lat: 40.71,
       lng: -74.01,
+      city: null,
+      country: null,
       locationMode: 'pick',
       editingId: null,
     });
@@ -83,6 +87,8 @@ describe('submitProject', () => {
       address: 'Paris, France',
       lat: null,
       lng: null,
+      city: null,
+      country: null,
       locationMode: 'type',
       editingId: null,
     });
@@ -105,6 +111,8 @@ describe('submitProject', () => {
       address: 'Tokyo, Japan',
       lat: null,
       lng: null,
+      city: null,
+      country: null,
       locationMode: 'type',
       editingId: 'proj-5',
     });
@@ -131,6 +139,8 @@ describe('submitProject', () => {
         address: '???',
         lat: null,
         lng: null,
+        city: null,
+        country: null,
         locationMode: 'type',
         editingId: null,
       }),
@@ -152,6 +162,8 @@ describe('submitProject', () => {
         address: 'Nowhere',
         lat: null,
         lng: null,
+        city: null,
+        country: null,
         locationMode: 'type',
         editingId: null,
       }),

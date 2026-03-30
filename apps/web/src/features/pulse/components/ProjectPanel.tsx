@@ -35,6 +35,7 @@ export function ProjectPanel({ project, userRole, onClose, onEdit, onDeleted }: 
       await deleteProject(project.id);
       setConfirmDelete(false);
       onDeleted();
+      setDeleting(false);
     } catch {
       setDeleting(false);
     }

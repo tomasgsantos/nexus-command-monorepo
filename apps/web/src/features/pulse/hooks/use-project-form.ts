@@ -11,6 +11,8 @@ interface FormFields {
   address: string;
   lat: number | null;
   lng: number | null;
+  city: string | null;
+  country: string | null;
 }
 
 interface FormState {
@@ -26,6 +28,8 @@ const EMPTY_FIELDS: FormFields = {
   address: '',
   lat: null,
   lng: null,
+  city: null,
+  country: null,
 };
 
 export interface UseProjectFormReturn {
@@ -65,9 +69,17 @@ export function useProjectForm(): UseProjectFormReturn {
       ...s,
       fields: { ...s.fields, lat, lng, address: `${lat.toFixed(4)}, ${lng.toFixed(4)}` },
     }));
-    reverseGeocode(lat, lng).then((place) => {
-      if (place) {
-        setState((s) => ({ ...s, fields: { ...s.fields, address: place } }));
+    reverseGeocode(lat, lng).then((result) => {
+      if (result.address) {
+        setState((s) => ({
+          ...s,
+          fields: {
+            ...s.fields,
+            address: result.address!,
+            city: result.city,
+            country: result.country,
+          },
+        }));
       }
     });
   }, []);
@@ -85,6 +97,8 @@ export function useProjectForm(): UseProjectFormReturn {
         address: [project.city, project.country].filter(Boolean).join(', '),
         lat: project.lat,
         lng: project.lng,
+        city: project.city,
+        country: project.country,
       },
       locationMode: 'type',
       submitting: false,

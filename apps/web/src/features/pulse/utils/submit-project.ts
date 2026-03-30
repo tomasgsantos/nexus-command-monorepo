@@ -16,17 +16,21 @@ interface SubmitParams {
   address: string;
   lat: number | null;
   lng: number | null;
+  city: string | null;
+  country: string | null;
   locationMode: 'type' | 'pick';
   editingId: string | null;
 }
 
 export async function submitProject(params: SubmitParams): Promise<Project> {
-  let { lat, lng } = params;
+  let { lat, lng, city, country } = params;
 
   if (params.locationMode === 'type') {
     const geo = await geocodeAddress(params.address);
     lat = geo.lat;
     lng = geo.lng;
+    city = geo.city;
+    country = geo.country;
   }
 
   if (params.editingId) {
@@ -35,6 +39,8 @@ export async function submitProject(params: SubmitParams): Promise<Project> {
       health_status: params.health_status,
       lat,
       lng,
+      city,
+      country,
     };
     return updateProject(params.editingId, payload);
   }
@@ -44,8 +50,8 @@ export async function submitProject(params: SubmitParams): Promise<Project> {
     health_status: params.health_status,
     lat,
     lng,
-    city: null,
-    country: null,
+    city,
+    country,
   };
   return createProject(payload);
 }

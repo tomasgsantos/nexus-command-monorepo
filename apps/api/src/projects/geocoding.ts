@@ -3,6 +3,14 @@ const MAPBOX_GEOCODING_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 export interface GeocodingResult {
   lat: number;
   lng: number;
+  city: string | null;
+  country: string | null;
+}
+
+function extractCityCountry(context: { id: string; text: string }[]): { city: string | null; country: string | null } {
+  const city = context.find((c) => c.id.startsWith('place.'))?.text ?? null;
+  const country = context.find((c) => c.id.startsWith('country.'))?.text ?? null;
+  return { city, country };
 }
 
 export async function geocodeAddress(address: string): Promise<GeocodingResult> {
@@ -29,6 +37,7 @@ export async function geocodeAddress(address: string): Promise<GeocodingResult> 
   }
 
   const [lng, lat] = features[0].center;
+  const { city, country } = extractCityCountry(features[0].context ?? []);
 
-  return { lat, lng };
+  return { lat, lng, city, country };
 }
