@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import './ProjectFormModal.css';
 import type { HealthStatus } from '@nexus/api';
 import type { UseProjectFormReturn, LocationMode } from '../hooks/use-project-form';
 
@@ -37,12 +38,12 @@ export function ProjectFormModal({ open, form, onClose, onSubmitSuccess }: Proje
     <AnimatePresence>
       {open && (
         <motion.div
-          className="project-form-overlay"
+          className={`project-form-overlay${form.locationMode === 'pick' ? ' project-form-overlay--pick' : ''}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          onClick={onClose}
+          onClick={form.locationMode === 'pick' ? undefined : onClose}
         >
           <motion.div
             className="project-form-modal"

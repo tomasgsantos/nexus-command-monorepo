@@ -1,3 +1,5 @@
+import './PulseIndicator.css';
+
 interface PulseIndicatorProps {
   active?: boolean;
 }

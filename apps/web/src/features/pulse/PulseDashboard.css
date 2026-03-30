@@ -1,0 +1,147 @@
+/* ── Pulse Dashboard ──────────────────────────────────────── */
+
+.pulse-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-surface-lowest);
+}
+
+/* ── Map ─────────────────────────────────────────────────── */
+
+.pulse-map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+
+.pulse-header {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  right: var(--space-3);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline-md);
+    color: var(--color-on-surface);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+
+.pulse-new-project-btn {
+  background-color: var(--color-primary);
+  color: var(--color-surface-lowest);
+  border: none;
+  border-radius: var(--radius-button);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+}
+
+/* ── KPI Bar ─────────────────────────────────────────────── */
+
+.pulse-kpi-bar {
+  position: absolute;
+  bottom: var(--space-3);
+  left: var(--space-3);
+  right: var(--space-3);
+  z-index: 10;
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ── Map Markers ─────────────────────────────────────────── */
+
+.pulse-map-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--color-surface-lowest);
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.4);
+  }
+
+  &--on_track {
+    background-color: var(--color-primary);
+  }
+
+  &--at_risk {
+    background-color: var(--color-secondary-container);
+  }
+
+  &--failing {
+    background-color: var(--color-tertiary-container);
+  }
+}
+
+/* ── Pick Hint ───────────────────────────────────────────── */
+
+.pulse-pick-hint {
+  position: absolute;
+  bottom: calc(var(--space-3) + 80px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-button);
+  outline: 1px solid var(--color-outline-variant);
+  padding: 0.375rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  color: var(--color-on-surface-variant);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ── Loading / Error ─────────────────────────────────────── */
+
+.pulse-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  font-family: var(--font-body);
+  font-size: var(--text-title-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.pulse-error {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-lowest);
+  color: var(--color-error);
+  font-family: var(--font-body);
+}

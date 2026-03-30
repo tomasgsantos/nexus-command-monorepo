@@ -1,0 +1,39 @@
+/* ── KPI Card ─────────────────────────────────────────────── */
+
+.kpi-card {
+  flex: 1;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-card);
+  padding: var(--space-2);
+  outline: 1px solid var(--color-outline-variant);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  &__value {
+    font-family: var(--font-display);
+    font-size: var(--text-headline-md);
+    color: var(--color-on-surface);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  /* Editorial Offset — secondary data breaks grid alignment */
+  &__secondary {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-primary);
+    margin-top: 0.125rem;
+    padding-left: var(--space-1);
+  }
+}

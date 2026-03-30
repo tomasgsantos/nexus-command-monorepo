@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { deleteProject } from '@nexus/api';
 import type { ProjectWithOwner, UserRole } from '@nexus/api';
 import { PulseIndicator } from './PulseIndicator';
+import './ProjectPanel.css';
 
 interface ProjectPanelProps {
   project: ProjectWithOwner | null;

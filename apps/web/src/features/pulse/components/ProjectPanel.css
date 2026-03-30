@@ -1,0 +1,132 @@
+/* ── Project Panel ───────────────────────────────────────── */
+
+.project-panel {
+  position: absolute;
+  top: 4rem;
+  right: var(--space-3);
+  z-index: 20;
+  width: 320px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-card);
+  box-shadow: var(--glass-shadow);
+  outline: 1px solid var(--color-outline-variant);
+  padding: var(--space-3);
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline-md);
+    color: var(--color-on-surface);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  &__close {
+    background: transparent;
+    border: none;
+    color: var(--color-on-surface-variant);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+  }
+
+  &__status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-2);
+  }
+
+  &__badge {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    &--on_track { color: var(--color-primary); }
+    &--at_risk  { color: var(--color-secondary-container); }
+    &--failing  { color: var(--color-tertiary-container); }
+  }
+
+  &__details {
+    margin: 0;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--color-outline-variant);
+
+    & dt {
+      font-size: var(--text-label-sm);
+      color: var(--color-on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    & dd {
+      margin: 0;
+      font-size: var(--text-label-sm);
+      color: var(--color-on-surface);
+    }
+  }
+
+  &__muted {
+    color: var(--color-on-surface-variant);
+  }
+}
+
+/* ── Project Panel Actions ──────────────────────────────── */
+
+.project-panel__actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.project-panel__action-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--edit {
+    background-color: var(--color-surface-container-high);
+    color: var(--color-on-surface);
+  }
+
+  &--delete {
+    background: transparent;
+    color: var(--color-tertiary-container);
+  }
+}

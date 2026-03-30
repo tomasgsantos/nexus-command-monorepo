@@ -8,10 +8,11 @@ import { usePulseMap, MAPBOX_TOKEN, MAP_STYLE } from './hooks/use-pulse-map';
 import { useProjectForm } from './hooks/use-project-form';
 import { ProjectPanel } from './components/ProjectPanel';
 import { ProjectFormModal } from './components/ProjectFormModal';
+import { RealtimeNotification } from './components/RealtimeNotification';
 import { KpiCard } from './components/KpiCard';
 import { PulseIndicator } from './components/PulseIndicator';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import './pulse.css';
+import './PulseDashboard.css';
 
 interface PulseDashboardProps {
   user: AuthUser;
@@ -28,7 +29,7 @@ function computeKpis(projects: ProjectWithOwner[]) {
 export default function PulseDashboard({ user }: PulseDashboardProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectWithOwner | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { projects, loading, error, refresh } = useRealtimeFeed();
+  const { projects, loading, error, refresh, notification, clearNotification } = useRealtimeFeed();
   const { viewState, onMove } = usePulseMap();
   const form = useProjectForm();
 
@@ -108,6 +109,8 @@ export default function PulseDashboard({ user }: PulseDashboardProps) {
         ))}
       </Map>
 
+      <RealtimeNotification notification={notification} onDismiss={clearNotification} />
+
       <motion.header
         className="pulse-header"
         initial={{ opacity: 0, y: -12 }}
@@ -152,6 +155,12 @@ export default function PulseDashboard({ user }: PulseDashboardProps) {
           onClose={handleModalClose}
           onSubmitSuccess={handleSubmitSuccess}
         />
+      )}
+
+      {modalOpen && form.locationMode === 'pick' && (
+        <div className="pulse-pick-hint">
+          Click anywhere on the map to drop a pin — then confirm in the form
+        </div>
       )}
 
       {loading && <div className="pulse-loading">Loading projects&hellip;</div>}

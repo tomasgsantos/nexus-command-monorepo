@@ -6,6 +6,7 @@ export function useRealtimeFeed() {
   const [projects, setProjects] = useState<ProjectWithOwner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [notification, setNotification] = useState<{ message: string; key: number } | null>(null);
 
   // Realtime events are raw DB rows — no profile join. Preserve owner_display_name
   // from existing state, or fall back to 'Unknown' for new inserts.
@@ -19,6 +20,7 @@ export function useRealtimeFeed() {
       next[index] = withOwner;
       return next;
     });
+    setNotification({ message: 'Project data updated', key: Date.now() });
   }, []);
 
   useEffect(() => {
@@ -52,5 +54,7 @@ export function useRealtimeFeed() {
       .catch(() => { /* realtime will catch up */ });
   }, []);
 
-  return { projects, loading, error, refresh };
+  const clearNotification = useCallback(() => setNotification(null), []);
+
+  return { projects, loading, error, refresh, notification, clearNotification };
 }

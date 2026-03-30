@@ -15,9 +15,11 @@ import {
   resetMutationChain,
 } from './__mocks__/supabase-mutations';
 
+const { mockGetUser } = vi.hoisted(() => ({ mockGetUser: vi.fn() }));
+
 // Mock the supabase client at the actual file location
 vi.mock('../../../../../apps/api/src/supabase-client', () => ({
-  supabase: { from: mockFrom },
+  supabase: { from: mockFrom, auth: { getUser: mockGetUser } },
 }));
 
 import { createProject, updateProject, deleteProject } from '@nexus/api';
@@ -29,6 +31,7 @@ describe('project-mutations', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     resetMutationChain();
+    mockGetUser.mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
   });
 
   // ── createProject ───────────────────────────────────────
