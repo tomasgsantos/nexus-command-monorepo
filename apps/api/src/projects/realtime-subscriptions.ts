@@ -1,6 +1,6 @@
 import { supabase } from '../supabase-client';
 import type { RealtimeChannel } from '@supabase/supabase-js';
-import type { Project } from './project-queries';
+import type { Project } from '../types/Project';
 
 /**
  * Subscribe to INSERT, UPDATE, and DELETE events on the projects table.

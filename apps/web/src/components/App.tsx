@@ -32,7 +32,7 @@ function App() {
 
   return (
     <Suspense fallback={<div className="app-loading" />}>
-      <PulseDashboard />
+      <PulseDashboard user={user} />
       <button type="button" className="app-signout-btn app-signout-btn--overlay" onClick={handleLogout}>
         Sign out
       </button>

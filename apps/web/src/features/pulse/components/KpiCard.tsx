@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import './KpiCard.css';
 
 interface KpiCardProps {
   label: string;

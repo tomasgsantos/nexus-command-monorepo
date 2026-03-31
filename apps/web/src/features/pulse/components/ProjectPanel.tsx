@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { ProjectWithOwner } from '@nexus/api';
+import { deleteProject } from '@nexus/api';
+import type { ProjectWithOwner, UserRole } from '@nexus/api';
 import { PulseIndicator } from './PulseIndicator';
+import './ProjectPanel.css';
+import { Button } from '@nexus/ui';
 
 interface ProjectPanelProps {
   project: ProjectWithOwner | null;
+  userRole: UserRole | null;
   onClose: () => void;
+  onEdit: (project: ProjectWithOwner) => void;
+  onDeleted: () => void;
 }
 
 const HEALTH_LABELS: Record<ProjectWithOwner['health_status'], string> = {
@@ -13,7 +20,28 @@ const HEALTH_LABELS: Record<ProjectWithOwner['health_status'], string> = {
   failing: 'Failing',
 };
 
-export function ProjectPanel({ project, onClose }: ProjectPanelProps) {
+export function ProjectPanel({ project, userRole, onClose, onEdit, onDeleted }: ProjectPanelProps) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const isAdmin = userRole === 'admin';
+
+  async function handleDelete() {
+    if (!project) return;
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+      return;
+    }
+    setDeleting(true);
+    try {
+      await deleteProject(project.id);
+      setConfirmDelete(false);
+      onDeleted();
+      setDeleting(false);
+    } catch {
+      setDeleting(false);
+    }
+  }
+
   return (
     <AnimatePresence>
       {project && (
@@ -26,9 +54,9 @@ export function ProjectPanel({ project, onClose }: ProjectPanelProps) {
         >
           <div className="project-panel__header">
             <h2 className="project-panel__title">{project.title}</h2>
-            <button type="button" className="project-panel__close" onClick={onClose}>
+            <Button variant='icon' type="button" className="project-panel__close" onClick={onClose}>
               &times;
-            </button>
+            </Button>
           </div>
 
           <div className="project-panel__status">
@@ -60,6 +88,28 @@ export function ProjectPanel({ project, onClose }: ProjectPanelProps) {
               <dd className="project-panel__muted">&mdash;</dd>
             </div>
           </dl>
+
+          {isAdmin && (
+            <div className="project-panel__actions">
+              <Button
+                type="button"
+                className="project-panel__action-btn project-panel__action-btn--edit"
+                onClick={() => onEdit(project)}
+                variant='text-underline'
+              >
+                Edit
+              </Button>
+              <Button
+                type="button"
+                className="project-panel__action-btn project-panel__action-btn--delete"
+                onClick={handleDelete}
+                disabled={deleting}
+                variant='text-underline'
+              >
+                {deleting ? 'Deleting...' : confirmDelete ? 'Confirm Delete' : 'Delete'}
+              </Button>
+            </div>
+          )}
         </motion.aside>
       )}
     </AnimatePresence>

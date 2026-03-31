@@ -4,6 +4,7 @@ import type { AuthUser } from '@nexus/api';
 import { useLoginForm } from './hooks/use-login-form';
 import { useDemoLogin } from './hooks/use-demo-login';
 import './auth.css';
+import { Button } from '@nexus/ui';
 
 interface LoginCardProps {
   onAuthSuccess: (user: AuthUser) => void;
@@ -102,22 +103,23 @@ export function LoginCard({ onAuthSuccess }: LoginCardProps) {
         )}
 
         <motion.div custom={4} initial="hidden" animate="visible" variants={fieldVariants}>
-          <button className="auth-btn-primary" type="submit" disabled={isLoading}>
+          <Button className='auth-btn-primary' type="submit" disabled={isLoading}>
             {signInLoading ? 'Signing in…' : 'Sign In'}
-          </button>
+          </Button>
         </motion.div>
       </form>
 
       <motion.div custom={5} initial="hidden" animate="visible" variants={fieldVariants}>
         <div className="auth-divider">or</div>
-        <button
-          className="auth-btn-ghost"
+        <Button
           type="button"
           onClick={handleDemo}
           disabled={isLoading}
+          variant='text'
+          className="auth-btn-ghost"
         >
           {demoLoading ? 'Loading demo…' : 'Enter Demo'}
-        </button>
+        </Button>
         <p className="auth-demo-label">No credentials required</p>
       </motion.div>
     </motion.div>
