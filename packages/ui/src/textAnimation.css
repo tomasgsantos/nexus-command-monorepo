@@ -9,6 +9,7 @@
 .text-animation-wrap {
     overflow-y: hidden;
     position: relative;
+    transform: translateY(-4px);
 
     > .lowercase {
         display: flex;
