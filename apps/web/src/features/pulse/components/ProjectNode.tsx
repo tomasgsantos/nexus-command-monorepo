@@ -1,5 +1,6 @@
 import type { Project } from '@nexus/api';
 import { PulseIndicator } from './PulseIndicator';
+import './ProjectNode.css';
 
 interface ProjectNodeProps {
   project: Project;

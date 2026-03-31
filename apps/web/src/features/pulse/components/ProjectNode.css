@@ -1,0 +1,20 @@
+/* ── Project Node ─────────────────────────────────────────── */
+
+.project-node {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: transparent;
+  border: none;
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  font-size: var(--text-title-sm);
+  cursor: pointer;
+  padding: var(--space-1) 0;
+
+  &__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

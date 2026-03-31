@@ -1,0 +1,27 @@
+/* ── Pulse Indicator ─────────────────────────────────────── */
+
+.pulse-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-surface-bright);
+  flex-shrink: 0;
+
+  &--active {
+    background-color: var(--color-primary-container);
+    box-shadow: 0 0 6px var(--color-primary-container);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 4px var(--color-primary-container);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 10px var(--color-primary-container), 0 0 20px var(--color-primary-container);
+    opacity: 0.85;
+  }
+}

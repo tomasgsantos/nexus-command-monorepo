@@ -1,6 +1,8 @@
 /**
  * Unit tests — useRealtimeFeed hook
  * Covers: initial fetch, realtime updates, error handling, cleanup
+ *
+ * @vitest-environment jsdom
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -189,5 +191,88 @@ describe('useRealtimeFeed', () => {
     // State should remain at initial values since component unmounted
     expect(result.current.projects).toEqual([]);
     expect(result.current.loading).toBe(true);
+  });
+
+  // ---------------------------------------------------------------------------
+  // Notification tests
+  // ---------------------------------------------------------------------------
+
+  it('notification is null initially', async () => {
+    mockFetchProjects.mockResolvedValue([projectA]);
+
+    const { result } = renderHook(() => useRealtimeFeed());
+
+    await act(async () => {});
+
+    expect(result.current.notification).toBeNull();
+  });
+
+  it('notification is set after a realtime event fires', async () => {
+    mockFetchProjects.mockResolvedValue([projectA, projectB]);
+
+    const { result } = renderHook(() => useRealtimeFeed());
+
+    await act(async () => {});
+
+    const realtimeCallback = captureRealtimeCallback();
+    expect(realtimeCallback).toBeDefined();
+
+    act(() => {
+      realtimeCallback!(projectAUpdated);
+    });
+
+    expect(result.current.notification).not.toBeNull();
+    expect(result.current.notification?.message).toBe('Project data updated');
+  });
+
+  it('clearNotification resets notification to null', async () => {
+    mockFetchProjects.mockResolvedValue([projectA, projectB]);
+
+    const { result } = renderHook(() => useRealtimeFeed());
+
+    await act(async () => {});
+
+    const realtimeCallback = captureRealtimeCallback();
+
+    act(() => {
+      realtimeCallback!(projectAUpdated);
+    });
+
+    expect(result.current.notification).not.toBeNull();
+
+    act(() => {
+      result.current.clearNotification();
+    });
+
+    expect(result.current.notification).toBeNull();
+  });
+
+  it('notification.key changes on each new realtime update', async () => {
+    mockFetchProjects.mockResolvedValue([projectA, projectB]);
+
+    const { result } = renderHook(() => useRealtimeFeed());
+
+    await act(async () => {});
+
+    const realtimeCallback = captureRealtimeCallback();
+    expect(realtimeCallback).toBeDefined();
+
+    act(() => {
+      realtimeCallback!(projectAUpdated);
+    });
+
+    const firstKey = result.current.notification?.key;
+    expect(firstKey).toBeDefined();
+
+    // Advance time so Date.now() returns a different value
+    await new Promise((r) => setTimeout(r, 1));
+
+    act(() => {
+      realtimeCallback!(projectA);
+    });
+
+    const secondKey = result.current.notification?.key;
+    expect(secondKey).toBeDefined();
+    expect(secondKey).not.toBe(firstKey);
   });
 });

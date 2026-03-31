@@ -1,7 +1,5 @@
 import { supabase } from '../supabase-client';
-import type { Database } from '../types/Database';
-
-export type Project = Database['public']['Tables']['projects']['Row'];
+import type { Project } from '../types/Project';
 
 export interface ProjectWithOwner extends Project {
   owner_display_name: string;

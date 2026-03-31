@@ -1,0 +1,44 @@
+@define-mixin text-hover-animation {
+    @for $i from 1 to 25 {
+        &:nth-of-type($i) {
+            transition: transform .2s ease calc($i * 0.02s);
+        }
+    }
+}
+
+.text-animation-wrap {
+    overflow-y: hidden;
+    position: relative;
+    transform: translateY(-4px);
+
+    > .lowercase {
+        display: flex;
+
+        > span {
+            transform: translateY(2px);
+            @mixin text-hover-animation;
+        }
+    }
+
+    > .uppercase {
+        position: absolute;
+        display: flex;
+        inset: 0;
+
+        > span {
+            transform: translateY(40px);
+            @mixin text-hover-animation;
+        }
+    }
+
+    &:hover,
+    .text-hover-parent:hover & {
+        .lowercase > span {
+            transform: translateY(-40px);
+        }
+
+        .uppercase > span {
+            transform: translateY(2px);
+        }
+    }
+}
