@@ -35,6 +35,11 @@ lerna-debug.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/postcss.css-data.json
+
+# Supabase CLI temp state
+supabase/.temp/
 
 # Claude Code
 .claude/settings.local.json
@@ -45,5 +50,6 @@ lerna-debug.log*
 # Yarn / Node temp files (can land in repo root)
 yarn--*/
 v8-compile-cache-*/
+node-compile-cache/
 # Vitest/Vite cache (hash-named dirs that can land in root)
 [A-Z][a-zA-Z0-9]??-*/

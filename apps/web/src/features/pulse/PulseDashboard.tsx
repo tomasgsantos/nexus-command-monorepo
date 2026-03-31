@@ -6,6 +6,7 @@ import type { ProjectWithOwner, AuthUser } from '@nexus/api';
 import { useRealtimeFeed } from './hooks/use-realtime-feed';
 import { usePulseMap, MAPBOX_TOKEN, MAP_STYLE } from './hooks/use-pulse-map';
 import { useProjectForm } from './hooks/use-project-form';
+import { Button, TextHoverAnimation } from '@nexus/ui';
 import { ProjectPanel } from './components/ProjectPanel';
 import { ProjectFormModal } from './components/ProjectFormModal';
 import { RealtimeNotification } from './components/RealtimeNotification';
@@ -129,17 +130,13 @@ export default function PulseDashboard({ user }: PulseDashboardProps) {
       >
         <div className="pulse-header__title-group">
           <PulseIndicator active={!loading} />
-          <h1 className="pulse-header__title">The Pulse</h1>
+          <TextHoverAnimation text='The Pulse' fontSize={28}  />
         </div>
 
         {isAdmin && (
-          <button
-            type="button"
-            className="pulse-new-project-btn"
-            onClick={handleNewProject}
-          >
+          <Button onClick={handleNewProject}>
             + New Project
-          </button>
+          </Button>
         )}
       </motion.header>
 

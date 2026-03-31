@@ -43,24 +43,6 @@
   }
 
 
-.pulse-new-project-btn {
-  background-color: var(--color-primary);
-  color: var(--color-surface-lowest);
-  border: none;
-  border-radius: var(--radius-button);
-  padding: 0.5rem 1rem;
-  font-family: var(--font-body);
-  font-size: var(--text-label-sm);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-
-  &:hover {
-    opacity: 0.85;
-  }
-}
 }
 
 /* ── KPI Bar ─────────────────────────────────────────────── */

@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './ProjectFormModal.css';
 import type { HealthStatus } from '@nexus/api';
 import type { UseProjectFormReturn, LocationMode } from '../hooks/use-project-form';
+import { Button } from '@nexus/ui';
 
 interface ProjectFormModalProps {
   open: boolean;
@@ -57,9 +58,9 @@ export function ProjectFormModal({ open, form, onClose, onSubmitSuccess }: Proje
               <h2 className="project-form-modal__title">
                 {isEdit ? 'Edit Project' : 'New Project'}
               </h2>
-              <button type="button" className="project-panel__close" onClick={onClose}>
+              <Button variant='icon' type="button" className="project-panel__close" onClick={onClose}>
                 &times;
-              </button>
+              </Button>
             </div>
 
             <form className="project-form-modal__body" onSubmit={handleSubmit}>
@@ -121,13 +122,14 @@ export function ProjectFormModal({ open, form, onClose, onSubmitSuccess }: Proje
                 <p className="project-form-modal__error">{form.error}</p>
               )}
 
-              <button
+              <Button
+                variant='primary'
                 type="submit"
                 className="project-form-modal__submit"
                 disabled={form.submitting}
               >
                 {form.submitting ? 'Saving...' : isEdit ? 'Update Project' : 'Create Project'}
-              </button>
+              </Button>
             </form>
           </motion.div>
         </motion.div>
