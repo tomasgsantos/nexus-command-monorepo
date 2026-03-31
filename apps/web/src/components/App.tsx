@@ -4,12 +4,17 @@ import { lazy, Suspense, useState, useEffect } from "react";
 import { getSession, signOut } from "@nexus/api";
 import type { AuthUser } from "@nexus/api";
 import LoginPage from "../features/auth/LoginPage";
+import { Sidebar } from "./Sidebar/Sidebar";
+import type { NavPage } from "./Sidebar/Sidebar";
+import { useSidebar } from "./Sidebar/use-sidebar";
 
 const PulseDashboard = lazy(() => import("../features/pulse/PulseDashboard"));
 
 function App() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activePage, setActivePage] = useState<NavPage>('pulse');
+  const { collapsed, toggle } = useSidebar();
 
   useEffect(() => {
     getSession()
@@ -32,10 +37,14 @@ function App() {
 
   return (
     <Suspense fallback={<div className="app-loading" />}>
+      <Sidebar
+        activePage={activePage}
+        onNavigate={setActivePage}
+        collapsed={collapsed}
+        onToggle={toggle}
+        handleLogout={handleLogout}
+      />
       <PulseDashboard user={user} />
-      <button type="button" className="app-signout-btn app-signout-btn--overlay" onClick={handleLogout}>
-        Sign out
-      </button>
     </Suspense>
   );
 }
