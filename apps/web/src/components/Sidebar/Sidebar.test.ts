@@ -1,6 +1,6 @@
 /**
  * Tests for Sidebar component
- * Covers: nav item rendering, collapsed state, active class, onNavigate, toggle, handleLogout, title tooltip
+ * Covers: nav item rendering, collapsed state, active class, navigation, toggle, handleLogout, title tooltip
  *
  * @vitest-environment jsdom
  */
@@ -9,10 +9,22 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { createElement, type ComponentProps } from 'react';
 
-/* ── Mocks ─────────────────────────────────────────────────── */
+/* ── Router mocks ──────────────────────────────────────────── */
+
+const routerState = vi.hoisted(() => ({
+  navigate: vi.fn(),
+  pathname: '/pulse',
+}));
+
+vi.mock('react-router-dom', () => ({
+  useNavigate: () => routerState.navigate,
+  useLocation: () => ({ pathname: routerState.pathname }),
+}));
+
+/* ── Component import (after mocks) ────────────────────────── */
 
 import { Sidebar } from './Sidebar';
-import type { NavPage } from './Sidebar';
+import { AppRoute } from '../../constants/routes';
 
 /* ── Helpers ───────────────────────────────────────────────── */
 
@@ -20,8 +32,6 @@ type SidebarProps = ComponentProps<typeof Sidebar>;
 
 function makeSidebarProps(overrides?: Partial<SidebarProps>) {
   return {
-    activePage: 'pulse' as NavPage,
-    onNavigate: vi.fn(),
     handleLogout: vi.fn(),
     ...overrides,
   };
@@ -42,6 +52,8 @@ function collapseViaToggle() {
 describe('Sidebar', () => {
   afterEach(() => {
     cleanup();
+    routerState.navigate.mockReset();
+    routerState.pathname = AppRoute.Pulse;
   });
 
   it('renders nav items "The Pulse" and "Map" when expanded', () => {
@@ -59,24 +71,24 @@ describe('Sidebar', () => {
     expect(screen.queryByText('Map')).toBeNull();
   });
 
-  it('active item gets sidebar__item--active class', () => {
-    renderSidebar({ activePage: 'pulse' });
+  it('active item gets sidebar__item--active class when pathname matches', () => {
+    routerState.pathname = AppRoute.Pulse;
+    renderSidebar();
 
     const buttons = screen.getAllByRole('button');
-    const pulseButton = buttons.find((btn) =>
+    const activeButton = buttons.find((btn) =>
       btn.classList.contains('sidebar__item') && btn.classList.contains('sidebar__item--active'),
     );
 
-    expect(pulseButton).toBeDefined();
+    expect(activeButton).toBeDefined();
   });
 
-  it('clicking a nav item calls onNavigate with the correct page id', () => {
-    const onNavigate = vi.fn();
-    renderSidebar({ onNavigate, activePage: 'pulse' });
+  it('clicking a nav item calls navigate with the correct route path', () => {
+    renderSidebar();
 
     fireEvent.click(screen.getByText('Map').closest('button')!);
 
-    expect(onNavigate).toHaveBeenCalledWith('map');
+    expect(routerState.navigate).toHaveBeenCalledWith(AppRoute.Map);
   });
 
   it('clicking the toggle button collapses the sidebar (title changes to Expand)', () => {

@@ -1,22 +1,20 @@
 import { motion } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 import MapIcon  from '../../assets/icons/map.svg?react';
 import PulseIcon from '../../assets/icons/pulse.svg?react'
 import ArrowIcon from '../../assets/icons/arrow.svg?react'
 import './Sidebar.css';
 import { useSidebar } from './use-sidebar';
-
-export type NavPage = 'pulse' | 'map';
+import { AppRoute } from '../../constants/routes';
 
 interface NavItem {
-  id: NavPage;
+  path: AppRoute;
   label: string;
   icon: React.ReactNode;
   indicator?: React.ReactNode;
 }
 
 interface SidebarProps {
-  activePage: NavPage;
-  onNavigate: (page: NavPage) => void;
   handleLogout: () => void;
 }
 
@@ -24,17 +22,20 @@ const CollapseIcon = ({ collapsed }: { collapsed: boolean }) => (
   <ArrowIcon className={`sidebar__collapse-icon${collapsed ? ' sidebar__collapse-icon--flipped' : ''}`} />
 );
 
-export function Sidebar({ activePage, onNavigate, handleLogout }: SidebarProps) {
-  const {collapsed, toggle} = useSidebar();
+export function Sidebar({ handleLogout }: SidebarProps) {
+  const { collapsed, toggle } = useSidebar();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const navItems: NavItem[] = [
     {
-      id: 'pulse',
+      path: AppRoute.Pulse,
       label: 'The Pulse',
       icon: <PulseIcon />,
       indicator: <span className="sidebar__pulse-dot" />,
     },
     {
-      id: 'map',
+      path: AppRoute.Map,
       label: 'Map',
       icon: <MapIcon />,
     },
@@ -63,11 +64,11 @@ export function Sidebar({ activePage, onNavigate, handleLogout }: SidebarProps) 
 
       <ul className="sidebar__nav">
         {navItems.map((item) => (
-          <li key={item.id}>
+          <li key={item.path}>
             <button
               type="button"
-              className={`sidebar__item${activePage === item.id ? ' sidebar__item--active' : ''}`}
-              onClick={() => onNavigate(item.id)}
+              className={`sidebar__item${pathname === item.path ? ' sidebar__item--active' : ''}`}
+              onClick={() => navigate(item.path)}
               title={collapsed ? item.label : undefined}
             >
               <span className="sidebar__item-icon">
