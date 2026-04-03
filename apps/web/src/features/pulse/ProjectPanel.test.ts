@@ -17,14 +17,6 @@ vi.mock('@nexus/api', () => ({
   deleteProject: (...args: unknown[]) => mockDeleteProject(...args),
 }));
 
-vi.mock('framer-motion', () => ({
-  motion: {
-    aside: ({ children, ...props }: any) =>
-      createElement('aside', { ...props, className: props.className }, children),
-  },
-  AnimatePresence: ({ children }: any) => createElement('div', null, children),
-}));
-
 import { ProjectPanel } from './components/ProjectPanel';
 import { makeProjectWithOwner } from './__mocks__/project-factories';
 import type { UserRole } from '@nexus/api';

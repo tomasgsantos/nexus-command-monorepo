@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 
 /* ── Mocks ─────────────────────────────────────────────────── */
 
@@ -48,9 +48,8 @@ describe('useAuth', () => {
 
     const { result } = renderHook(() => useAuth());
 
-    await act(async () => {});
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.loading).toBe(false);
     expect(result.current.user).toEqual(user);
     expect(result.current.error).toBeNull();
   });
@@ -60,9 +59,8 @@ describe('useAuth', () => {
 
     const { result } = renderHook(() => useAuth());
 
-    await act(async () => {});
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.loading).toBe(false);
     expect(result.current.user).toBeNull();
     expect(result.current.error).toBeNull();
   });
@@ -73,13 +71,11 @@ describe('useAuth', () => {
     mockSignIn.mockResolvedValue(user);
 
     const { result } = renderHook(() => useAuth());
-    await act(async () => {});
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
-    await act(async () => {
-      await result.current.login('admin@nexus.app', 'password');
-    });
+    await result.current.login('admin@nexus.app', 'password');
 
-    expect(result.current.user).toEqual(user);
+    await waitFor(() => expect(result.current.user).toEqual(user));
     expect(result.current.loading).toBe(false);
     expect(result.current.error).toBeNull();
   });
@@ -89,14 +85,12 @@ describe('useAuth', () => {
     mockSignIn.mockRejectedValue(new Error('Invalid credentials'));
 
     const { result } = renderHook(() => useAuth());
-    await act(async () => {});
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
-    await act(async () => {
-      await result.current.login('bad@nexus.app', 'wrong');
-    });
+    await result.current.login('bad@nexus.app', 'wrong');
 
+    await waitFor(() => expect(result.current.error).toBe('Invalid credentials'));
     expect(result.current.user).toBeNull();
-    expect(result.current.error).toBe('Invalid credentials');
   });
 
   it('calls signOut and clears user on logout', async () => {
@@ -105,16 +99,12 @@ describe('useAuth', () => {
     mockSignOut.mockResolvedValue(undefined);
 
     const { result } = renderHook(() => useAuth());
-    await act(async () => {});
+    await waitFor(() => expect(result.current.user).toEqual(user));
 
-    expect(result.current.user).toEqual(user);
+    await result.current.logout();
 
-    await act(async () => {
-      await result.current.logout();
-    });
-
+    await waitFor(() => expect(result.current.user).toBeNull());
     expect(mockSignOut).toHaveBeenCalledOnce();
-    expect(result.current.user).toBeNull();
     expect(result.current.loading).toBe(false);
   });
 });

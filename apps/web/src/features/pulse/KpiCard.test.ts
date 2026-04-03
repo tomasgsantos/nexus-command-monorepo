@@ -11,14 +11,6 @@ import { createElement } from 'react';
 
 /* ── Mocks ─────────────────────────────────────────────────── */
 
-vi.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: any) =>
-      createElement('div', { className: props.className }, children),
-  },
-  AnimatePresence: ({ children }: any) => createElement('div', null, children),
-}));
-
 vi.mock('./components/KpiCard.css', () => ({}));
 
 import { KpiCard } from './components/KpiCard';

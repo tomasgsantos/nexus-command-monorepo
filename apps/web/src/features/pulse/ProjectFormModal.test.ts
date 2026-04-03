@@ -12,14 +12,6 @@ import React from 'react';
 
 /* ── Mocks ─────────────────────────────────────────────────── */
 
-vi.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: React.ComponentPropsWithoutRef<'div'>) =>
-      React.createElement('div', props, children),
-  },
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
-}));
-
 vi.mock('@nexus/ui', () => ({
   Button: ({ children, onClick, type, disabled, className }: any) =>
     React.createElement('button', { onClick, type, disabled, className }, children),
@@ -28,7 +20,7 @@ vi.mock('@nexus/ui', () => ({
 vi.mock('./components/ProjectFormModal.css', () => ({}));
 
 import { ProjectFormModal } from './components/ProjectFormModal';
-import type { UseProjectFormReturn, LocationMode } from './hooks/use-project-form';
+import type { UseProjectFormReturn } from './hooks/use-project-form';
 
 /* ── Helpers ────────────────────────────────────────────────── */
 

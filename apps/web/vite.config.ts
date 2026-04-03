@@ -1,10 +1,11 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
 import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
   base: '/nexus-command-monorepo/',
   resolve: {
     alias: [
@@ -25,5 +26,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    alias: {
+      'framer-motion': new URL('./__mocks__/framer-motion.ts', import.meta.url).pathname,
+    },
   },
 })
