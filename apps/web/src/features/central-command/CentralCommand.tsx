@@ -20,7 +20,7 @@ export default function CentralCommand({ user: _user }: CentralCommandProps) {
         <h1 className="command-header__title">Central Command</h1>
         <div className="command-header__status">
           <PulseIndicator active />
-          <span className="command-header__status-label">System Status: Nominal</span>
+          <span className="command-header__status-label">System Status: OK</span>
         </div>
       </motion.header>
 

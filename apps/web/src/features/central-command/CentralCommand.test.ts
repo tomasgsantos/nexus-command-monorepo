@@ -47,7 +47,7 @@ describe('CentralCommand', () => {
 
   it('renders the system status label', () => {
     render(createElement(CentralCommand, { user: mockUser() }));
-    expect(screen.getByText('System Status: Nominal')).toBeDefined();
+    expect(screen.getByText('System Status: OK')).toBeDefined();
   });
 
   it('renders the PulseIndicator', () => {
