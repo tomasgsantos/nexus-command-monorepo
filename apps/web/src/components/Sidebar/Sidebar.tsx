@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import MapIcon  from '../../assets/icons/map.svg?react';
 import PulseIcon from '../../assets/icons/pulse.svg?react'
+import ArrowIcon from '../../assets/icons/arrow.svg?react'
 import './Sidebar.css';
 import { useSidebar } from './use-sidebar';
 
@@ -20,13 +21,7 @@ interface SidebarProps {
 }
 
 const CollapseIcon = ({ collapsed }: { collapsed: boolean }) => (
-  <svg
-    width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-    className={`sidebar__collapse-icon${collapsed ? ' sidebar__collapse-icon--flipped' : ''}`}
-  >
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
+  <ArrowIcon className={`sidebar__collapse-icon${collapsed ? ' sidebar__collapse-icon--flipped' : ''}`} />
 );
 
 export function Sidebar({ activePage, onNavigate, handleLogout }: SidebarProps) {
