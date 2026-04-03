@@ -11,14 +11,6 @@ import { createElement } from 'react';
 
 /* ── Mocks ─────────────────────────────────────────────────── */
 
-vi.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: any) =>
-      createElement('div', { ...props, className: props.className }, children),
-  },
-  AnimatePresence: ({ children }: any) => createElement('div', null, children),
-}));
-
 import { RealtimeNotification } from './components/RealtimeNotification';
 
 /* ── Helpers ───────────────────────────────────────────────── */
