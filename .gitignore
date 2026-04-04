@@ -46,6 +46,7 @@ supabase/.temp/
 
 # Misc
 .vercel/
+reference-design-imgs/
 
 # Yarn / Node temp files (can land in repo root)
 yarn--*/

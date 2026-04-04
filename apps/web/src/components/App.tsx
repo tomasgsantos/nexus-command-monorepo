@@ -1,18 +1,19 @@
 import "../assets/styles/base.css";
 import "./App.css";
 import { lazy, Suspense, useState, useEffect } from "react";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { getSession, signOut } from "@nexus/api";
 import type { AuthUser } from "@nexus/api";
 import LoginPage from "../features/auth/LoginPage";
 import { Sidebar } from "./Sidebar/Sidebar";
-import type { NavPage } from "./Sidebar/Sidebar";
+import { AppRoute } from "../constants/routes";
 
+const CentralCommand = lazy(() => import("../features/central-command/CentralCommand"));
 const PulseDashboard = lazy(() => import("../features/pulse/PulseDashboard"));
 
 function App() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activePage, setActivePage] = useState<NavPage>('pulse');
 
   useEffect(() => {
     getSession()
@@ -34,14 +35,20 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<div className="app-loading" />}>
-      <Sidebar
-        activePage={activePage}
-        onNavigate={setActivePage}
-        handleLogout={handleLogout}
-      />
-      <PulseDashboard user={user} />
-    </Suspense>
+    <HashRouter>
+      <div className="app-shell">
+        <Sidebar handleLogout={handleLogout} />
+        <main className="app-shell__main">
+          <Suspense fallback={<div className="app-loading" />}>
+            <Routes>
+              <Route path={AppRoute.Pulse} element={<CentralCommand user={user} />} />
+              <Route path={AppRoute.Map} element={<PulseDashboard user={user} />} />
+              <Route path="*" element={<Navigate to={AppRoute.Pulse} replace />} />
+            </Routes>
+          </Suspense>
+        </main>
+      </div>
+    </HashRouter>
   );
 }
 
