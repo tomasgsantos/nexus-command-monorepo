@@ -23,6 +23,7 @@
     "react-dom": "^19.2.0",
     "react-map-gl": "^7.0.0",
     "react-redux": "^9.0.0",
+    "react-router-dom": "^7.14.0",
     "redux": "^5.0.0"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "2.1.9",
     "autoprefixer": "^10.4.23",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -51,6 +53,7 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^5.4.0",
+    "vite-plugin-svgr": "^5.0.0",
     "vitest": "^2.0.0"
   }
 }

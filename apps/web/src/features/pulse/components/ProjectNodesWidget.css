@@ -1,0 +1,78 @@
+.project-nodes-widget {
+  background: var(--color-surface-high);
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-surface-highest);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-on-surface-variant);
+  }
+
+  &__live-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    background: rgba(117, 255, 158, 0.08);
+    border-radius: var(--radius-button);
+    padding: 2px 6px;
+    outline: 1px solid rgba(117, 255, 158, 0.25);
+  }
+
+  &__map {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+  }
+
+  &__expand {
+    background: none;
+    border: none;
+    padding: var(--space-1) var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-on-surface-variant);
+    cursor: pointer;
+    text-align: right;
+    flex-shrink: 0;
+    transition: color 0.15s;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  &__marker {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-surface-lowest);
+    transform: scale(1);
+    transition: transform 0.8s var(--spring-ease);
+
+    @starting-style {
+      transform: scale(0);
+    }
+
+    &--on_track  { background-color: var(--color-primary); }
+    &--at_risk   { background-color: var(--color-secondary-container); }
+    &--failing   { background-color: var(--color-tertiary-container); }
+  }
+}

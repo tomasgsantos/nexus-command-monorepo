@@ -2,8 +2,8 @@
 
 .pulse-root {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background-color: var(--color-surface-lowest);
 }
@@ -99,13 +99,17 @@
   background-color: var(--color-primary);
   border: 2px solid var(--color-surface-lowest);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-  animation: pick-preview-drop 0.2s ease-out;
+  transform: rotate(-45deg) scale(1) translateY(0);
+  opacity: 1;
+  transition: all 0.2s ease-out;
+
+  @starting-style {
+    transform: rotate(-45deg) scale(0.5) translateY(-6px);
+    opacity: 0; 
+  }
 }
 
-@keyframes pick-preview-drop {
-  from { transform: rotate(-45deg) scale(0.5) translateY(-6px); opacity: 0; }
-  to   { transform: rotate(-45deg) scale(1)   translateY(0);    opacity: 1; }
-}
+
 
 /* ── Pick Hint ───────────────────────────────────────────── */
 

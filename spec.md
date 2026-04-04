@@ -115,6 +115,7 @@ The existing login page in `apps/web` must be fully replaced. The Obsidian Lens 
 
 **Features:**
 - React FullCalendar as the base component
+- use tsDav package for CalDAV implementation https://tsdav.vercel.app/
 - CalDAV protocol implementation for external calendar sync
 - `.ics` file formatting and export
 - Event creation with project tagging
