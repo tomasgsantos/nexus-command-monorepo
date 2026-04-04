@@ -36,12 +36,10 @@
   }
 }
 
-/* Grid starts as a single column and expands as more epic widgets are added.
-   When Epic 2 (scheduler) ships, change to: grid-template-columns: 2fr 1fr */
 .command-grid {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: var(--space-2);
   min-height: 0;
 

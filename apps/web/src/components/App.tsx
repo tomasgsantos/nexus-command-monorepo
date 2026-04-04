@@ -10,6 +10,7 @@ import { AppRoute } from "../constants/routes";
 
 const CentralCommand = lazy(() => import("../features/central-command/CentralCommand"));
 const PulseDashboard = lazy(() => import("../features/pulse/PulseDashboard"));
+const EnterpriseScheduler = lazy(() => import("../features/scheduler/EnterpriseScheduler"));
 
 function App() {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -43,6 +44,7 @@ function App() {
             <Routes>
               <Route path={AppRoute.Pulse} element={<CentralCommand user={user} />} />
               <Route path={AppRoute.Map} element={<PulseDashboard user={user} />} />
+              <Route path={AppRoute.Scheduler} element={<EnterpriseScheduler />} />
               <Route path="*" element={<Navigate to={AppRoute.Pulse} replace />} />
             </Routes>
           </Suspense>

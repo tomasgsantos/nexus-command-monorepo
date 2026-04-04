@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import MapIcon  from '../../assets/icons/map.svg?react';
 import PulseIcon from '../../assets/icons/pulse.svg?react'
 import ArrowIcon from '../../assets/icons/arrow.svg?react'
+import CalendarIcon from '../../assets/icons/calendar.svg?react'
 import './Sidebar.css';
 import { useSidebar } from './use-sidebar';
 import { AppRoute } from '../../constants/routes';
@@ -38,6 +39,11 @@ export function Sidebar({ handleLogout }: SidebarProps) {
       path: AppRoute.Map,
       label: 'Map',
       icon: <MapIcon />,
+    },
+    {
+      path: AppRoute.Scheduler,
+      label: 'Scheduler',
+      icon: <CalendarIcon />,
     },
   ];
 
