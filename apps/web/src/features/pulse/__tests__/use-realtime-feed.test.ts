@@ -19,9 +19,6 @@ setupNexusApiMock();
 import type { ProjectWithOwner } from '@nexus/api';
 import { useRealtimeFeed } from '../hooks/use-realtime-feed';
 
-// ---------------------------------------------------------------------------
-// Fixtures
-// ---------------------------------------------------------------------------
 const projectA: ProjectWithOwner = {
   id: 'p-1',
   title: 'Alpha',
@@ -51,9 +48,6 @@ const projectAUpdated: ProjectWithOwner = {
   health_status: 'failing',
 };
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 
 /** Captures the realtime callback passed to subscribeToProjects. */
 function captureRealtimeCallback() {
@@ -61,9 +55,6 @@ function captureRealtimeCallback() {
   return call?.[0] as ((project: ProjectWithOwner) => void) | undefined;
 }
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
 describe('useRealtimeFeed', () => {
   const mockUnsubscribe = vi.fn();
 
@@ -138,7 +129,7 @@ describe('useRealtimeFeed', () => {
     });
 
     expect(result.current.projects[0]).toEqual(projectAUpdated);
-    // projectB should be unchanged
+
     expect(result.current.projects[1]).toEqual(projectB);
   });
 
@@ -181,21 +172,16 @@ describe('useRealtimeFeed', () => {
 
     const { result, unmount } = renderHook(() => useRealtimeFeed());
 
-    // Unmount before the fetch resolves
     unmount();
 
     await act(async () => {
       resolveFetch([projectA]);
     });
 
-    // State should remain at initial values since component unmounted
     expect(result.current.projects).toEqual([]);
     expect(result.current.loading).toBe(true);
   });
 
-  // ---------------------------------------------------------------------------
-  // Toast tests
-  // ---------------------------------------------------------------------------
 
   it('toasts is empty initially', async () => {
     mockFetchProjects.mockResolvedValue([projectA]);

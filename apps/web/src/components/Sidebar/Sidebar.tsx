@@ -1,11 +1,14 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import MapIcon  from '../../assets/icons/map.svg?react';
-import PulseIcon from '../../assets/icons/pulse.svg?react'
-import ArrowIcon from '../../assets/icons/arrow.svg?react'
-import CalendarIcon from '../../assets/icons/calendar.svg?react'
+import MapIcon from '../../assets/icons/map.svg?react';
+import PulseIcon from '../../assets/icons/pulse.svg?react';
+import ArrowIcon from '../../assets/icons/arrow.svg?react';
+import CalendarIcon from '../../assets/icons/calendar.svg?react';
+import LogoutIcon from '../../assets/icons/logout.svg?react';
 import './Sidebar.css';
 import { useSidebar } from './use-sidebar';
+import { useIsMobile } from './use-mobile';
+import { MobileNav } from './MobileNav';
 import { AppRoute } from '../../constants/routes';
 
 interface NavItem {
@@ -24,6 +27,16 @@ const CollapseIcon = ({ collapsed }: { collapsed: boolean }) => (
 );
 
 export function Sidebar({ handleLogout }: SidebarProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileNav handleLogout={handleLogout} />;
+  }
+
+  return <DesktopSidebar handleLogout={handleLogout} />;
+}
+
+function DesktopSidebar({ handleLogout }: SidebarProps) {
   const { collapsed, toggle } = useSidebar();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -48,25 +61,25 @@ export function Sidebar({ handleLogout }: SidebarProps) {
   ];
 
   return (
-    <motion.nav
+    <nav
       className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}
-      animate={{ width: collapsed ? 60 : 220 }}
-      transition={{ duration: 0.25, ease: 'easeInOut' }}
-      onAnimationComplete={() => window.dispatchEvent(new Event('resize'))}
+      onTransitionEnd={() => window.dispatchEvent(new Event('resize'))}
     >
       <div className="sidebar__logo">
         <span className="sidebar__logo-mark">N</span>
-        {!collapsed && (
-          <motion.span
-            className="sidebar__logo-text"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            Nexus
-          </motion.span>
-        )}
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.span
+              className="sidebar__logo-text"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              Nexus
+            </motion.span>
+          )}
+        </AnimatePresence>
       </div>
 
       <ul className="sidebar__nav">
@@ -82,33 +95,50 @@ export function Sidebar({ handleLogout }: SidebarProps) {
                 {item.icon}
                 {item.indicator}
               </span>
-              {!collapsed && (
-                <motion.span
-                  className="sidebar__item-label"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  {item.label}
-                </motion.span>
-              )}
+              <AnimatePresence>
+                {!collapsed && (
+                  <motion.span
+                    className="sidebar__item-label"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    {item.label}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </button>
           </li>
         ))}
       </ul>
 
-      <button type="button" className="app-signout-btn" onClick={handleLogout}>
-        Sign out
-      </button>
+      <div className="sidebar__actions">
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.button
+              type="button"
+              className="app-signout-btn"
+              onClick={handleLogout}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <LogoutIcon />
+            </motion.button>
+          )}
+        </AnimatePresence>
 
-      <button
-        type="button"
-        className="sidebar__toggle"
-        onClick={toggle}
-        title={collapsed ? 'Expand' : 'Collapse'}
-      >
-        <CollapseIcon collapsed={collapsed} />
-      </button>
-    </motion.nav>
+        <button
+          type="button"
+          className="sidebar__toggle"
+          onClick={toggle}
+          title={collapsed ? 'Expand' : 'Collapse'}
+        >
+          <CollapseIcon collapsed={collapsed} />
+        </button>
+      </div>
+    </nav>
   );
 }

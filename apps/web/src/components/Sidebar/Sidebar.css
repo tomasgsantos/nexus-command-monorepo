@@ -1,9 +1,10 @@
-/* ── Sidebar ─────────────────────────────────────────────── */
+/* ── Sidebar (desktop only) ────────────────────────────────── */
 
 .sidebar {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  width: 220px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -13,6 +14,11 @@
   overflow: hidden;
   padding: var(--space-2) 0;
   margin: var(--space-1);
+  transition: width 0.25s ease;
+
+  &--collapsed {
+    width: 60px;
+  }
 
   /* ── Logo ──────────────────────────────────────────────── */
 
@@ -24,6 +30,7 @@
     border-bottom: 1px solid var(--color-outline-variant);
     white-space: nowrap;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   &__logo-mark {
@@ -124,6 +131,12 @@
     background-color: var(--color-primary-container);
     box-shadow: 0 0 6px var(--color-primary-container);
     animation: sidebar-pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* ── Actions (sign out + toggle) ───────────────────────── */
+
+  &__actions {
+    display: contents;
   }
 
   /* ── Toggle button ─────────────────────────────────────── */

@@ -5,9 +5,14 @@
 
 .app-shell {
   display: flex;
+  flex-direction: row;
   height: 100vh;
   overflow: hidden;
   background-color: var(--color-surface-lowest);
+
+  @mixin mobile {
+    flex-direction: column;
+  }
 }
 
 .app-shell__main {
@@ -15,4 +20,9 @@
   overflow: hidden;
   position: relative;
   min-width: 0;
+
+  @mixin mobile {
+    min-width: unset;
+    min-height: 0;
+  }
 }

@@ -40,6 +40,10 @@
     flex: 1;
     position: relative;
     min-height: 0;
+
+    @mixin mobile {
+      min-height: 42vh;
+    }
   }
 
   &__expand {

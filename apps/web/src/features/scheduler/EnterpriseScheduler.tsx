@@ -18,8 +18,6 @@ export default function EnterpriseScheduler() {
   const { toasts, notify, dismiss } = useToast();
   const { events, loading, refetch, createEvent, updateEvent, deleteEvent } = useScheduler(notify);
 
-  // Re-fetch whenever the Scheduler page is mounted so navigating back from
-  // Central Command always shows the latest events without a manual refresh.
   useEffect(() => { refetch(); }, [refetch]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [formOpen, setFormOpen] = useState(false);
