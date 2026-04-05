@@ -9,7 +9,7 @@ import { useProjectForm } from './hooks/use-project-form';
 import { Button, TextHoverAnimation } from '@nexus/ui';
 import { ProjectPanel } from './components/ProjectPanel';
 import { ProjectFormModal } from './components/ProjectFormModal';
-import { RealtimeNotification } from './components/RealtimeNotification';
+import { ToastStack } from '@nexus/ui';
 import { KpiCard } from './components/KpiCard';
 import { PulseIndicator } from './components/PulseIndicator';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -30,10 +30,9 @@ function computeKpis(projects: ProjectWithOwner[]) {
 export default function PulseDashboard({ user }: PulseDashboardProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectWithOwner | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { projects, loading, error, refresh, notification, clearNotification } = useRealtimeFeed();
+  const { projects, loading, error, refresh, toasts, dismiss } = useRealtimeFeed();
   const { viewState, onMove } = usePulseMap();
   const form = useProjectForm();
-
   const isAdmin = user.profile.role === 'admin';
 
   const handleNodeClick = useCallback((project: ProjectWithOwner) => {
@@ -120,7 +119,7 @@ export default function PulseDashboard({ user }: PulseDashboardProps) {
         )}
       </Map>
 
-      <RealtimeNotification notification={notification} onDismiss={clearNotification} />
+      <ToastStack toasts={toasts} onDismiss={dismiss} placement="top-center" />
 
       <motion.header
         className="pulse-header"

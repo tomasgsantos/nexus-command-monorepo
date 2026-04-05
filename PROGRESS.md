@@ -9,9 +9,10 @@
 ```
 main       ← user-controlled, triggers GitHub Pages deploy
   └── dev  ← integration branch (agents never touch main)
-        ├── feature/auth-scaffold   ← MERGED ✅
-        ├── feature/pulse-dashboard ← COMPLETE, pending PR to dev
-        ├── feature/enterprise-scheduler ← next
+        ├── feature/auth-scaffold          ← MERGED ✅
+        ├── feature/pulse-dashboard        ← MERGED ✅
+        ├── feature/sidebar                ← MERGED ✅
+        ├── feature/enterprise-scheduler   ← IN PROGRESS
         └── ...
 ```
 
@@ -98,10 +99,38 @@ main       ← user-controlled, triggers GitHub Pages deploy
 
 ---
 
+## App Shell — Sidebar, Routing & Central Command
+
+**Branch:** `feature/sidebar`
+**Status:** ✅ COMPLETE — Pending user PR review into `dev`.
+
+### What was built
+
+| Layer | Contents | Status |
+|---|---|---|
+| `apps/web/src/constants/` | `routes.ts` — `AppRoute` enum (`/pulse`, `/map`) | ✅ |
+| `apps/web/src/components/App.tsx` | HashRouter shell · auth gate · lazy-loaded routes · session check on mount | ✅ |
+| `apps/web/src/components/App.css` | App shell layout — `.app-shell` flex container, `.app-shell__main` | ✅ |
+| `apps/web/src/components/Sidebar/` | `Sidebar.tsx` · `Sidebar.css` · `use-sidebar.ts` · `Sidebar.test.ts` · `use-sidebar.test.ts` | ✅ |
+| `apps/web/src/features/central-command/` | `CentralCommand.tsx` · `CentralCommand.css` · `CentralCommand.test.ts` | ✅ |
+
+### Features
+
+- **Sidebar:** Collapsible (60px → 220px), glassmorphism, framer-motion width animation, active route highlighting, live pulse dot on "The Pulse" nav item, sign-out button
+- **Routing:** HashRouter, auth-gated shell, lazy-loaded `CentralCommand` and `PulseDashboard`, wildcard redirect to `/pulse`
+- **Central Command (`/pulse`):** Dashboard overview page — "CENTRAL COMMAND" header with system status indicator, framer-motion entrance, CSS grid layout scaffolded for future epic widgets, currently hosts `ProjectNodesWidget` (miniaturised live map)
+- **Nav items:** "The Pulse" → `/pulse` (CentralCommand), "Map" → `/map` (PulseDashboard)
+
+### Notes
+- `CentralCommand.css` grid is currently single-column; comment marks where Epic 2 scheduler widget slots in
+- Sidebar nav items will need extending as each new epic lands (Scheduler, Playbook, Identity Lab, Marketplace)
+
+---
+
 ## Epic 2 — Enterprise Scheduler
 
-**Branch:** `feature/enterprise-scheduler` (not started)
-**Status:** 🔲 NEXT
+**Branch:** `feature/enterprise-scheduler`
+**Status:** 🔄 IN PROGRESS
 
 ---
 

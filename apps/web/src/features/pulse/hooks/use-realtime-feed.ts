@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchProjects, subscribeToProjects } from '@nexus/api';
+import { useToast } from '@nexus/ui';
 import type { Project, ProjectWithOwner } from '@nexus/api';
 
 export function useRealtimeFeed() {
   const [projects, setProjects] = useState<ProjectWithOwner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [notification, setNotification] = useState<{ message: string; key: number } | null>(null);
+  const { toasts, notify, dismiss } = useToast();
 
   // Realtime events are raw DB rows — no profile join. Preserve owner_display_name
   // from existing state, or fall back to 'Unknown' for new inserts.
@@ -20,8 +21,8 @@ export function useRealtimeFeed() {
       next[index] = withOwner;
       return next;
     });
-    setNotification({ message: 'Project data updated', key: Date.now() });
-  }, []);
+    notify('Project data updated');
+  }, [notify]);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,7 +55,5 @@ export function useRealtimeFeed() {
       .catch(() => { /* realtime will catch up */ });
   }, []);
 
-  const clearNotification = useCallback(() => setNotification(null), []);
-
-  return { projects, loading, error, refresh, notification, clearNotification };
+  return { projects, loading, error, refresh, toasts, dismiss };
 }

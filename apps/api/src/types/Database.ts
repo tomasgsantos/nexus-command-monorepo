@@ -33,9 +33,11 @@ export interface Database {
           end_at: string;
           project_id: string | null;
           caldav_uid: string | null;
+          owner_id: string;
+          expires_at: string | null;
         };
-        Insert: Omit<Database['public']['Tables']['events']['Row'], 'id'> & { id?: string };
-        Update: Partial<Database['public']['Tables']['events']['Row']>;
+        Insert: Omit<Database['public']['Tables']['events']['Row'], 'id' | 'owner_id' | 'expires_at'> & { id?: string; owner_id?: string; expires_at?: string | null };
+        Update: Partial<Omit<Database['public']['Tables']['events']['Row'], 'owner_id'>>;
       };
       playbooks: {
         Row: {

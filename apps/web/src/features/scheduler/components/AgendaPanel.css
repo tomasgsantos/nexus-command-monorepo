@@ -1,0 +1,194 @@
+.agenda {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-highest);
+    gap: var(--space-2);
+  }
+
+  &__header-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  &__header-label {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-on-surface);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 4px;
+  }
+
+  &__header-date {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-on-surface-variant);
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+
+  &__events {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    height: 100%;
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    text-align: center;
+
+    p { margin: 0; }
+  }
+
+  &__card {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background: var(--color-surface-high);
+    border-radius: var(--radius-card);
+    border-left: 3px solid var(--color-primary);
+
+    &:hover {
+      background: var(--color-surface-highest);
+    }
+  }
+
+  &__card-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  &__card-time-sep {
+    color: var(--color-on-surface-variant);
+    font-weight: 400;
+  }
+
+  &__card-body {
+    min-width: 0;
+  }
+
+  &__card-title {
+    font-family: var(--font-body);
+    font-size: var(--text-title-sm);
+    font-weight: 600;
+    color: var(--color-on-surface);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__card-sub {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-on-surface-variant);
+    margin: 2px 0 0;
+  }
+
+  &__card-actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  &__card:hover &__card-actions {
+    opacity: 1;
+  }
+
+  &__pulse {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-highest);
+    border-top: 1px solid rgba(117, 255, 158, 0.08);
+  }
+
+  &__pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 0 6px var(--color-primary);
+    animation: pulse-glow 2s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  &__pulse-label {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+  }
+
+  &__pulse-stats {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__stat-value {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface);
+    line-height: 1;
+
+    &--accent { color: var(--color-primary); }
+  }
+
+  &__stat-label {
+    font-family: var(--font-body);
+    font-size: var(--text-label-sm);
+    color: var(--color-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

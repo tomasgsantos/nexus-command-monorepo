@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import MapIcon  from '../../assets/icons/map.svg?react';
 import PulseIcon from '../../assets/icons/pulse.svg?react'
 import ArrowIcon from '../../assets/icons/arrow.svg?react'
+import CalendarIcon from '../../assets/icons/calendar.svg?react'
 import './Sidebar.css';
 import { useSidebar } from './use-sidebar';
 import { AppRoute } from '../../constants/routes';
@@ -39,6 +40,11 @@ export function Sidebar({ handleLogout }: SidebarProps) {
       label: 'Map',
       icon: <MapIcon />,
     },
+    {
+      path: AppRoute.Scheduler,
+      label: 'Scheduler',
+      icon: <CalendarIcon />,
+    },
   ];
 
   return (
@@ -46,6 +52,7 @@ export function Sidebar({ handleLogout }: SidebarProps) {
       className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}
       animate={{ width: collapsed ? 60 : 220 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
+      onAnimationComplete={() => window.dispatchEvent(new Event('resize'))}
     >
       <div className="sidebar__logo">
         <span className="sidebar__logo-mark">N</span>

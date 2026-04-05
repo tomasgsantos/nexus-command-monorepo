@@ -165,6 +165,25 @@ The login page must include:
 - Tests: `ComponentName.test.ts` or `utility-name.spec.ts`
 - Supabase migrations: `YYYYMMDD_description.sql`
 
+### Test File Location (Non-Negotiable)
+
+All test files must live inside a `__tests__/` folder at the root of the feature they test. **Never** place test files alongside source files in `components/`, `hooks/`, `utils/`, or the feature root.
+
+```
+features/
+  pulse/
+    __tests__/          ← ALL pulse tests go here
+      KpiCard.test.ts
+      use-realtime-feed.test.ts
+      ProjectNodesWidget.test.ts
+    components/
+      KpiCard.tsx       ← no .test.ts files here
+    hooks/
+      use-realtime-feed.ts
+```
+
+When moving or creating tests, update relative import paths accordingly (e.g. `'./components/Foo'` becomes `'../components/Foo'`).
+
 ---
 
 ## 11. Definition of Done
