@@ -10,10 +10,9 @@
 main       ← user-controlled, triggers GitHub Pages deploy
   └── dev  ← integration branch (agents never touch main)
         ├── feature/auth-scaffold          ← MERGED ✅
-        ├── feature/pulse-dashboard        ← COMPLETE, pending PR to dev
-        ├── feature/sidebar                ← COMPLETE, pending PR to dev
-        ├── feature/app-shell-enhancements ← IN PROGRESS (branched from feature/sidebar)
-        ├── feature/enterprise-scheduler   ← next
+        ├── feature/pulse-dashboard        ← MERGED ✅
+        ├── feature/sidebar                ← MERGED ✅
+        ├── feature/enterprise-scheduler   ← IN PROGRESS
         └── ...
 ```
 
@@ -130,8 +129,8 @@ main       ← user-controlled, triggers GitHub Pages deploy
 
 ## Epic 2 — Enterprise Scheduler
 
-**Branch:** `feature/enterprise-scheduler` (not started)
-**Status:** 🔲 NEXT
+**Branch:** `feature/enterprise-scheduler`
+**Status:** 🔄 IN PROGRESS
 
 ---
 
