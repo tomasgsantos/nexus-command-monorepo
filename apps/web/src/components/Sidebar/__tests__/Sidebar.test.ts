@@ -23,8 +23,8 @@ vi.mock('react-router-dom', () => ({
 
 /* ── Component import (after mocks) ────────────────────────── */
 
-import { Sidebar } from './Sidebar';
-import { AppRoute } from '../../constants/routes';
+import { Sidebar } from '../Sidebar';
+import { AppRoute } from '../../../constants/routes';
 
 /* ── Helpers ───────────────────────────────────────────────── */
 

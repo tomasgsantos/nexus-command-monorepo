@@ -13,17 +13,17 @@ import {
   mockEq,
   mockSingle,
   resetMutationChain,
-} from './__mocks__/supabase-mutations';
+} from '../__mocks__/supabase-mutations';
 
 const { mockGetUser } = vi.hoisted(() => ({ mockGetUser: vi.fn() }));
 
 // Mock the supabase client at the actual file location
-vi.mock('../../../../../apps/api/src/supabase-client', () => ({
+vi.mock('../../../../../../apps/api/src/supabase-client', () => ({
   supabase: { from: mockFrom, auth: { getUser: mockGetUser } },
 }));
 
 import { createProject, updateProject, deleteProject } from '@nexus/api';
-import { makeProject, makeCreateInput, makeUpdateInput } from './__mocks__/project-factories';
+import { makeProject, makeCreateInput, makeUpdateInput } from '../__mocks__/project-factories';
 
 /* ── Tests ─────────────────────────────────────────────────── */
 

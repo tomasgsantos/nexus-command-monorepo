@@ -20,20 +20,24 @@ vi.mock('framer-motion', () => ({
   },
 }));
 
-vi.mock('../pulse/components/PulseIndicator', () => ({
+vi.mock('../../pulse/components/PulseIndicator', () => ({
   PulseIndicator: () => createElement('span', { 'data-testid': 'pulse-indicator' }),
 }));
 
-vi.mock('../pulse/components/ProjectNodesWidget', () => ({
+vi.mock('../../pulse/components/ProjectNodesWidget', () => ({
   ProjectNodesWidget: () => createElement('div', { 'data-testid': 'project-nodes-widget' }),
 }));
 
-vi.mock('./CentralCommand.css', () => ({}));
+vi.mock('../../scheduler/components/SchedulerWidget', () => ({
+  SchedulerWidget: () => createElement('div', { 'data-testid': 'scheduler-widget' }),
+}));
+
+vi.mock('../CentralCommand.css', () => ({}));
 
 /* ── Component import (after mocks) ─────────────────────────── */
 
-import CentralCommand from './CentralCommand';
-import { mockUser } from '../auth/__mocks__/user';
+import CentralCommand from '../CentralCommand';
+import { mockUser } from '../../auth/__mocks__/user';
 
 /* ── Tests ──────────────────────────────────────────────────── */
 

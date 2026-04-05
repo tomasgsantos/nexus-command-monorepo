@@ -6,13 +6,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
-import { setupNexusApiMock, mockSignIn, mockSignInDemo } from './__mocks__/nexus-api';
+import { setupNexusApiMock, mockSignIn, mockSignInDemo } from '../__mocks__/nexus-api';
 
 setupNexusApiMock();
 
-import { useLoginForm } from './hooks/use-login-form';
-import { useDemoLogin } from './hooks/use-demo-login';
-import { mockUser as createMockUser } from './__mocks__/user';
+import { useLoginForm } from '../hooks/use-login-form';
+import { useDemoLogin } from '../hooks/use-demo-login';
+import { mockUser as createMockUser } from '../__mocks__/user';
 
 const mockUser = createMockUser();
 const mockDemoUser = createMockUser({

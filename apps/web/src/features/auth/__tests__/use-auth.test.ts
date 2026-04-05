@@ -17,12 +17,12 @@ import {
   mockSignIn,
   mockSignOut,
   mockGetSession,
-} from './__mocks__/nexus-api';
+} from '../__mocks__/nexus-api';
 
 setupNexusApiMock();
 
-import { useAuth } from './hooks/use-auth';
-import { mockUser } from './__mocks__/user';
+import { useAuth } from '../hooks/use-auth';
+import { mockUser } from '../__mocks__/user';
 
 /* ── Tests ──────────────────────────────────────────────────── */
 

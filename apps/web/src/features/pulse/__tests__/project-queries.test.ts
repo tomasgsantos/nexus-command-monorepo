@@ -12,10 +12,10 @@ import {
   mockEq,
   mockMaybeSingle,
   resetChain,
-} from './__mocks__/supabase-client';
+} from '../__mocks__/supabase-client';
 
 // Mock the supabase client used by project-queries
-vi.mock('../../../../../apps/api/src/supabase-client', () => ({
+vi.mock('../../../../../../apps/api/src/supabase-client', () => ({
   supabase: { from: mockFrom },
 }));
 

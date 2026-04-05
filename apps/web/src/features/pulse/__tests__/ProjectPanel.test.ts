@@ -17,8 +17,8 @@ vi.mock('@nexus/api', () => ({
   deleteProject: (...args: unknown[]) => mockDeleteProject(...args),
 }));
 
-import { ProjectPanel } from './components/ProjectPanel';
-import { makeProjectWithOwner } from './__mocks__/project-factories';
+import { ProjectPanel } from '../components/ProjectPanel';
+import { makeProjectWithOwner } from '../__mocks__/project-factories';
 import type { UserRole } from '@nexus/api';
 
 /* ── Helpers ───────────────────────────────────────────────── */

@@ -13,16 +13,16 @@ import { renderHook, act } from '@testing-library/react';
 const mockSubmitProject = vi.fn();
 const mockReverseGeocode = vi.fn();
 
-vi.mock('./utils/submit-project', () => ({
+vi.mock('../utils/submit-project', () => ({
   submitProject: (...args: unknown[]) => mockSubmitProject(...args),
 }));
 
-vi.mock('./utils/reverse-geocode', () => ({
+vi.mock('../utils/reverse-geocode', () => ({
   reverseGeocode: (...args: unknown[]) => mockReverseGeocode(...args),
 }));
 
-import { useProjectForm } from './hooks/use-project-form';
-import { makeProject, makeProjectWithOwner } from './__mocks__/project-factories';
+import { useProjectForm } from '../hooks/use-project-form';
+import { makeProject, makeProjectWithOwner } from '../__mocks__/project-factories';
 
 /* ── Helpers ───────────────────────────────────────────────── */
 

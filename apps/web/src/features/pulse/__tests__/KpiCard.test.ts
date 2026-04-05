@@ -11,9 +11,9 @@ import { createElement } from 'react';
 
 /* ── Mocks ─────────────────────────────────────────────────── */
 
-vi.mock('./components/KpiCard.css', () => ({}));
+vi.mock('../components/KpiCard.css', () => ({}));
 
-import { KpiCard } from './components/KpiCard';
+import { KpiCard } from '../components/KpiCard';
 
 /* ── Helpers ────────────────────────────────────────────────── */
 

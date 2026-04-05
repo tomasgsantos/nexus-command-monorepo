@@ -8,15 +8,14 @@ import listPlugin from '@fullcalendar/list';
 import type { DateSelectArg, EventClickArg, EventDropArg } from '@fullcalendar/core';
 import type { DateClickArg } from '@fullcalendar/interaction';
 import type { Event } from '@nexus/api';
-import { useEventToast } from './hooks/use-event-toast';
+import { useToast, ToastStack } from '@nexus/ui';
 import { useScheduler } from './hooks/use-scheduler';
 import { AgendaPanel } from './components/AgendaPanel';
 import { EventFormModal } from './components/EventFormModal';
-import { EventToast } from './components/EventToast';
 import './scheduler.css';
 
 export default function EnterpriseScheduler() {
-  const { toasts, notify, dismiss } = useEventToast();
+  const { toasts, notify, dismiss } = useToast();
   const { events, loading, refetch, createEvent, updateEvent, deleteEvent } = useScheduler(notify);
 
   // Re-fetch whenever the Scheduler page is mounted so navigating back from
@@ -163,7 +162,7 @@ export default function EnterpriseScheduler() {
         onSubmit={handleFormSubmit}
       />
 
-      <EventToast toasts={toasts} onDismiss={dismiss} />
+      <ToastStack toasts={toasts} onDismiss={dismiss} />
     </div>
   );
 }

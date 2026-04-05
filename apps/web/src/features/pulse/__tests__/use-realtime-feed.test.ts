@@ -12,12 +12,12 @@ import {
   setupNexusApiMock,
   mockFetchProjects,
   mockSubscribeToProjects,
-} from './__mocks__/nexus-api';
+} from '../__mocks__/nexus-api';
 
 setupNexusApiMock();
 
 import type { ProjectWithOwner } from '@nexus/api';
-import { useRealtimeFeed } from './hooks/use-realtime-feed';
+import { useRealtimeFeed } from '../hooks/use-realtime-feed';
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -194,20 +194,20 @@ describe('useRealtimeFeed', () => {
   });
 
   // ---------------------------------------------------------------------------
-  // Notification tests
+  // Toast tests
   // ---------------------------------------------------------------------------
 
-  it('notification is null initially', async () => {
+  it('toasts is empty initially', async () => {
     mockFetchProjects.mockResolvedValue([projectA]);
 
     const { result } = renderHook(() => useRealtimeFeed());
 
     await act(async () => {});
 
-    expect(result.current.notification).toBeNull();
+    expect(result.current.toasts).toEqual([]);
   });
 
-  it('notification is set after a realtime event fires', async () => {
+  it('a toast is added after a realtime event fires', async () => {
     mockFetchProjects.mockResolvedValue([projectA, projectB]);
 
     const { result } = renderHook(() => useRealtimeFeed());
@@ -221,11 +221,11 @@ describe('useRealtimeFeed', () => {
       realtimeCallback!(projectAUpdated);
     });
 
-    expect(result.current.notification).not.toBeNull();
-    expect(result.current.notification?.message).toBe('Project data updated');
+    expect(result.current.toasts).toHaveLength(1);
+    expect(result.current.toasts[0].message).toBe('Project data updated');
   });
 
-  it('clearNotification resets notification to null', async () => {
+  it('dismiss removes the toast by id', async () => {
     mockFetchProjects.mockResolvedValue([projectA, projectB]);
 
     const { result } = renderHook(() => useRealtimeFeed());
@@ -238,16 +238,16 @@ describe('useRealtimeFeed', () => {
       realtimeCallback!(projectAUpdated);
     });
 
-    expect(result.current.notification).not.toBeNull();
+    expect(result.current.toasts).toHaveLength(1);
 
     act(() => {
-      result.current.clearNotification();
+      result.current.dismiss(result.current.toasts[0].id);
     });
 
-    expect(result.current.notification).toBeNull();
+    expect(result.current.toasts).toHaveLength(0);
   });
 
-  it('notification.key changes on each new realtime update', async () => {
+  it('each realtime event produces a toast with a unique id', async () => {
     mockFetchProjects.mockResolvedValue([projectA, projectB]);
 
     const { result } = renderHook(() => useRealtimeFeed());
@@ -257,22 +257,10 @@ describe('useRealtimeFeed', () => {
     const realtimeCallback = captureRealtimeCallback();
     expect(realtimeCallback).toBeDefined();
 
-    act(() => {
-      realtimeCallback!(projectAUpdated);
-    });
+    act(() => { realtimeCallback!(projectAUpdated); });
+    act(() => { realtimeCallback!(projectA); });
 
-    const firstKey = result.current.notification?.key;
-    expect(firstKey).toBeDefined();
-
-    // Advance time so Date.now() returns a different value
-    await new Promise((r) => setTimeout(r, 1));
-
-    act(() => {
-      realtimeCallback!(projectA);
-    });
-
-    const secondKey = result.current.notification?.key;
-    expect(secondKey).toBeDefined();
-    expect(secondKey).not.toBe(firstKey);
+    expect(result.current.toasts).toHaveLength(2);
+    expect(result.current.toasts[0].id).not.toBe(result.current.toasts[1].id);
   });
 });

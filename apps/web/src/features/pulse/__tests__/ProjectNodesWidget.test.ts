@@ -31,8 +31,8 @@ vi.mock('../hooks/use-realtime-feed', () => ({
     loading: feedState.loading,
     error: null,
     refresh: vi.fn(),
-    notification: null,
-    clearNotification: vi.fn(),
+    toasts: [],
+    dismiss: vi.fn(),
   }),
 }));
 
@@ -53,11 +53,11 @@ vi.mock('react-map-gl', () => ({
 }));
 
 vi.mock('mapbox-gl/dist/mapbox-gl.css', () => ({}));
-vi.mock('./ProjectNodesWidget.css', () => ({}));
+vi.mock('../components/ProjectNodesWidget.css', () => ({}));
 
 /* ── Component import (after mocks) ─────────────────────────── */
 
-import { ProjectNodesWidget } from './ProjectNodesWidget';
+import { ProjectNodesWidget } from '../components/ProjectNodesWidget';
 import { makeProjectWithOwner } from '../__mocks__/project-factories';
 import { AppRoute } from '../../../constants/routes';
 

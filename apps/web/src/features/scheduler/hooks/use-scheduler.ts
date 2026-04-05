@@ -8,10 +8,11 @@ import {
   subscribeToEvents,
 } from '@nexus/api';
 import type { CreateEventInput, UpdateEventInput } from '@nexus/api';
+import type { ToastType } from '@nexus/ui';
 import { setEvents, addEvent, updateEvent, removeEvent, setLoading, setError, resetFetch } from '../scheduler-slice';
 import type { RootState } from '../../../store';
 
-type NotifyFn = (message: string, type?: 'success' | 'error') => void;
+type NotifyFn = (message: string, type?: ToastType) => void;
 
 export function useScheduler(notify?: NotifyFn) {
   const dispatch = useDispatch();

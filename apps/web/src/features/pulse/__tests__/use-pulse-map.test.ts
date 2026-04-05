@@ -7,7 +7,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { usePulseMap } from './use-pulse-map';
+import { usePulseMap } from '../hooks/use-pulse-map';
 import type { ViewState } from 'react-map-gl';
 
 /* ── Helpers ─────────────────────────────────────────────── */

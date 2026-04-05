@@ -11,13 +11,13 @@ import { createElement } from 'react';
 
 /* ── Mocks ─────────────────────────────────────────────────── */
 
-vi.mock('./components/PulseIndicator', () => ({
+vi.mock('../components/PulseIndicator', () => ({
   PulseIndicator: () => createElement('span', { 'data-testid': 'pulse-indicator' }),
 }));
 
-vi.mock('./components/ProjectNode.css', () => ({}));
+vi.mock('../components/ProjectNode.css', () => ({}));
 
-import { ProjectNode } from './components/ProjectNode';
+import { ProjectNode } from '../components/ProjectNode';
 import type { Project } from '@nexus/api';
 
 /* ── Helpers ────────────────────────────────────────────────── */

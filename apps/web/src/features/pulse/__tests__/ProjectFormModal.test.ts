@@ -17,10 +17,10 @@ vi.mock('@nexus/ui', () => ({
     React.createElement('button', { onClick, type, disabled, className }, children),
 }));
 
-vi.mock('./components/ProjectFormModal.css', () => ({}));
+vi.mock('../components/ProjectFormModal.css', () => ({}));
 
-import { ProjectFormModal } from './components/ProjectFormModal';
-import type { UseProjectFormReturn } from './hooks/use-project-form';
+import { ProjectFormModal } from '../components/ProjectFormModal';
+import type { UseProjectFormReturn } from '../hooks/use-project-form';
 
 /* ── Helpers ────────────────────────────────────────────────── */
 

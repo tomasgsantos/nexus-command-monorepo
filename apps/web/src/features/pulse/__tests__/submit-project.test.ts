@@ -17,8 +17,8 @@ vi.mock('@nexus/api', () => ({
   geocodeAddress: (...args: unknown[]) => mockGeocodeAddress(...args),
 }));
 
-import { submitProject } from './utils/submit-project';
-import { makeProject } from './__mocks__/project-factories';
+import { submitProject } from '../utils/submit-project';
+import { makeProject } from '../__mocks__/project-factories';
 
 /* ── Tests ─────────────────────────────────────────────────── */
 

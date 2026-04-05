@@ -12,6 +12,7 @@ export const mockSignIn = vi.fn();
 export const mockSignInDemo = vi.fn();
 export const mockSignOut = vi.fn();
 export const mockGetSession = vi.fn();
+export const mockSeedDemoEvents = vi.fn().mockResolvedValue(undefined);
 
 export function setupNexusApiMock(): void {
   vi.mock('@nexus/api', () => ({
@@ -19,5 +20,6 @@ export function setupNexusApiMock(): void {
     signInDemo: mockSignInDemo,
     signOut: mockSignOut,
     getSession: mockGetSession,
+    seedDemoEvents: mockSeedDemoEvents,
   }));
 }

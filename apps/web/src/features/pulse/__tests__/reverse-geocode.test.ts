@@ -8,7 +8,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 // Provide a fake token so the function doesn't bail out early
 vi.stubEnv('VITE_MAPBOX_TOKEN', 'test-token');
 
-import { reverseGeocode } from './reverse-geocode';
+import { reverseGeocode } from '../utils/reverse-geocode';
 
 /* ── Helpers ─────────────────────────────────────────────── */
 
