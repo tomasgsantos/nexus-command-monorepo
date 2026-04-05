@@ -6,12 +6,14 @@ interface SchedulerState {
   events: Event[];
   loading: boolean;
   error: string | null;
+  hasFetched: boolean;
 }
 
 const initialState: SchedulerState = {
   events: [],
   loading: false,
   error: null,
+  hasFetched: false,
 };
 
 const schedulerSlice = createSlice({
@@ -20,9 +22,12 @@ const schedulerSlice = createSlice({
   reducers: {
     setEvents(state, action: PayloadAction<Event[]>) {
       state.events = action.payload;
+      state.hasFetched = true;
     },
     addEvent(state, action: PayloadAction<Event>) {
-      state.events.push(action.payload);
+      if (!state.events.some((e) => e.id === action.payload.id)) {
+        state.events.push(action.payload);
+      }
     },
     updateEvent(state, action: PayloadAction<Event>) {
       const index = state.events.findIndex((e) => e.id === action.payload.id);
@@ -37,10 +42,16 @@ const schedulerSlice = createSlice({
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
+    resetScheduler() {
+      return initialState;
+    },
+    resetFetch(state) {
+      state.hasFetched = false;
+    },
   },
 });
 
-export const { setEvents, addEvent, updateEvent, removeEvent, setLoading, setError } =
+export const { setEvents, addEvent, updateEvent, removeEvent, setLoading, setError, resetScheduler, resetFetch } =
   schedulerSlice.actions;
 
 export const schedulerReducer = schedulerSlice.reducer;

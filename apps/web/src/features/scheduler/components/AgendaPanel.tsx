@@ -7,6 +7,7 @@ import './AgendaPanel.css';
 interface AgendaPanelProps {
   selectedDate: Date;
   events: Event[];
+  onDateChange: (date: Date) => void;
   onNewEvent: (e?: React.MouseEvent) => void;
   onEdit: (event: Event, e?: React.MouseEvent) => void;
   onDelete: (id: string) => void;
@@ -20,7 +21,12 @@ function formatDateHeader(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 }
 
-export function AgendaPanel({ selectedDate, events, onNewEvent, onEdit, onDelete }: AgendaPanelProps) {
+export function AgendaPanel({ selectedDate, events, onDateChange, onNewEvent, onEdit, onDelete }: AgendaPanelProps) {
+  function shiftDay(delta: number) {
+    const next = new Date(selectedDate);
+    next.setDate(next.getDate() + delta);
+    onDateChange(next);
+  }
   const dayEvents = events
     .filter((e) => {
       const start = new Date(e.start_at);
@@ -37,9 +43,13 @@ export function AgendaPanel({ selectedDate, events, onNewEvent, onEdit, onDelete
   return (
     <aside className="agenda">
       <header className="agenda__header">
-        <div>
-          <p className="agenda__header-label">Daily Agenda</p>
-          <p className="agenda__header-date">{formatDateHeader(selectedDate)}</p>
+        <div className="agenda__header-nav">
+          <Button variant="icon" onClick={() => shiftDay(-1)} aria-label="Previous day">‹</Button>
+          <div>
+            <p className="agenda__header-label">Daily Agenda</p>
+            <p className="agenda__header-date">{formatDateHeader(selectedDate)}</p>
+          </div>
+          <Button variant="icon" onClick={() => shiftDay(1)} aria-label="Next day">›</Button>
         </div>
         <Button variant="primary" onClick={onNewEvent}>+ New</Button>
       </header>

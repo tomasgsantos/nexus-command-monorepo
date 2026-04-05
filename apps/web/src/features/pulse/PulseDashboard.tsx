@@ -33,7 +33,6 @@ export default function PulseDashboard({ user }: PulseDashboardProps) {
   const { projects, loading, error, refresh, notification, clearNotification } = useRealtimeFeed();
   const { viewState, onMove } = usePulseMap();
   const form = useProjectForm();
-
   const isAdmin = user.profile.role === 'admin';
 
   const handleNodeClick = useCallback((project: ProjectWithOwner) => {

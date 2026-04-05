@@ -39,10 +39,31 @@
 }
 
 .scheduler-calendar {
+  position: relative;
   min-height: 0;
   background: var(--color-surface);
   border-radius: var(--radius-card);
   padding: var(--space-2);
+}
+
+.scheduler-calendar__loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius-card);
+  background: linear-gradient(90deg,
+    transparent 25%,
+    rgba(117, 255, 158, 0.04) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: scheduler-shimmer 1.4s infinite;
+  pointer-events: none;
+}
+
+@keyframes scheduler-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* ── FullCalendar Obsidian Lens theme ── */

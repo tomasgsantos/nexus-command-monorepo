@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signInDemo } from '@nexus/api';
+import { signInDemo, seedDemoEvents } from '@nexus/api';
 import type { AuthUser } from '@nexus/api';
 
 interface UseDemoLoginReturn {
@@ -17,6 +17,7 @@ export function useDemoLogin(): UseDemoLoginReturn {
     setError(null);
     try {
       const user = await signInDemo();
+      await seedDemoEvents();
       setLoading(false);
       return user;
     } catch (err) {

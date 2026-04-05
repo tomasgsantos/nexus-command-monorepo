@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,13 +8,20 @@ import listPlugin from '@fullcalendar/list';
 import type { DateSelectArg, EventClickArg, EventDropArg } from '@fullcalendar/core';
 import type { DateClickArg } from '@fullcalendar/interaction';
 import type { Event } from '@nexus/api';
+import { useEventToast } from './hooks/use-event-toast';
 import { useScheduler } from './hooks/use-scheduler';
 import { AgendaPanel } from './components/AgendaPanel';
 import { EventFormModal } from './components/EventFormModal';
+import { EventToast } from './components/EventToast';
 import './scheduler.css';
 
 export default function EnterpriseScheduler() {
-  const { events, loading, createEvent, updateEvent, deleteEvent } = useScheduler();
+  const { toasts, notify, dismiss } = useEventToast();
+  const { events, loading, refetch, createEvent, updateEvent, deleteEvent } = useScheduler(notify);
+
+  // Re-fetch whenever the Scheduler page is mounted so navigating back from
+  // Central Command always shows the latest events without a manual refresh.
+  useEffect(() => { refetch(); }, [refetch]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [formOpen, setFormOpen] = useState(false);
   const [formInitial, setFormInitial] = useState<Partial<Event>>({});
@@ -52,12 +59,39 @@ export default function EnterpriseScheduler() {
 
   const handleEventDrop = useCallback(
     async (arg: EventDropArg) => {
-      await updateEvent(arg.event.id, {
-        start_at: arg.event.startStr,
-        end_at: arg.event.endStr || arg.event.startStr,
-      });
+      try {
+        await updateEvent(arg.event.id, {
+          start_at: arg.event.startStr,
+          end_at: arg.event.endStr || arg.event.startStr,
+        });
+      } catch {
+        notify('Failed to reschedule event', 'error');
+        arg.revert();
+      }
     },
-    [updateEvent],
+    [updateEvent, notify],
+  );
+
+  const handleFormSubmit = useCallback(
+    async (data: Parameters<typeof createEvent>[0]) => {
+      if (formInitial.id) {
+        await updateEvent(formInitial.id, data);
+      } else {
+        await createEvent(data);
+      }
+    },
+    [formInitial.id, createEvent, updateEvent, notify],
+  );
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      try {
+        await deleteEvent(id);
+      } catch {
+        notify('Failed to delete event', 'error');
+      }
+    },
+    [deleteEvent, notify],
   );
 
   function openNewEventForDate(e?: React.MouseEvent) {
@@ -91,35 +125,33 @@ export default function EnterpriseScheduler() {
         transition={{ duration: 0.35, delay: 0.1 }}
       >
         <div className="scheduler-calendar">
-          {loading ? (
-            <div className="app-loading" />
-          ) : (
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-              initialView="dayGridMonth"
-              headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-              }}
-              events={calendarEvents}
-              selectable
-              editable
-              dateClick={handleDateClick}
-              select={handleDateSelect}
-              eventClick={handleEventClick}
-              eventDrop={handleEventDrop}
-              height="100%"
-            />
-          )}
+          {loading && <div className="scheduler-calendar__loading" />}
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+            }}
+            events={calendarEvents}
+            selectable
+            editable
+            dateClick={handleDateClick}
+            select={handleDateSelect}
+            eventClick={handleEventClick}
+            eventDrop={handleEventDrop}
+            height="100%"
+          />
         </div>
 
         <AgendaPanel
           selectedDate={selectedDate}
           events={events}
+          onDateChange={setSelectedDate}
           onNewEvent={openNewEventForDate}
           onEdit={(event, e) => { setFormInitial(event); setMouseOrigin(e ? { x: e.clientX, y: e.clientY } : undefined); setFormOpen(true); }}
-          onDelete={deleteEvent}
+          onDelete={handleDelete}
         />
       </motion.div>
 
@@ -128,8 +160,10 @@ export default function EnterpriseScheduler() {
         initial={formInitial}
         mouseOrigin={mouseOrigin}
         onClose={() => { setFormOpen(false); setFormInitial({}); setMouseOrigin(undefined); }}
-        onSubmit={createEvent}
+        onSubmit={handleFormSubmit}
       />
+
+      <EventToast toasts={toasts} onDismiss={dismiss} />
     </div>
   );
 }

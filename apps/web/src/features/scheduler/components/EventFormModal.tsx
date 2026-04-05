@@ -12,12 +12,14 @@ interface EventFormModalProps {
   onSubmit: (data: CreateEventInput) => Promise<unknown>;
 }
 
-// FullCalendar passes date-only strings ("2024-09-02") for day clicks.
-// datetime-local inputs require "YYYY-MM-DDTHH:mm" format.
+// datetime-local inputs expect a value in LOCAL time ("YYYY-MM-DDTHH:mm").
+// Stored timestamps are UTC, so we must shift by the local offset before slicing.
 function toDateTimeLocal(value: string | undefined): string {
   if (!value) return '';
   if (value.length === 10) return `${value}T00:00`;
-  return value.slice(0, 16);
+  const d = new Date(value);
+  const offsetMs = d.getTimezoneOffset() * 60_000;
+  return new Date(d.getTime() - offsetMs).toISOString().slice(0, 16);
 }
 
 export function EventFormModal({ open, initial, mouseOrigin, onClose, onSubmit }: EventFormModalProps) {

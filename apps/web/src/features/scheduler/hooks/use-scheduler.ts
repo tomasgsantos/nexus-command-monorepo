@@ -1,15 +1,27 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEvents, createEvent as apiCreateEvent, updateEvent as apiUpdateEvent, deleteEvent as apiDeleteEvent } from '@nexus/api';
+import {
+  fetchEvents,
+  createEvent as apiCreateEvent,
+  updateEvent as apiUpdateEvent,
+  deleteEvent as apiDeleteEvent,
+  subscribeToEvents,
+} from '@nexus/api';
 import type { CreateEventInput, UpdateEventInput } from '@nexus/api';
-import { setEvents, addEvent, updateEvent, removeEvent, setLoading, setError } from '../scheduler-slice';
+import { setEvents, addEvent, updateEvent, removeEvent, setLoading, setError, resetFetch } from '../scheduler-slice';
 import type { RootState } from '../../../store';
 
-export function useScheduler() {
+type NotifyFn = (message: string, type?: 'success' | 'error') => void;
+
+export function useScheduler(notify?: NotifyFn) {
   const dispatch = useDispatch();
-  const { events, loading, error } = useSelector((state: RootState) => state.scheduler);
+  const { events, loading, error, hasFetched } = useSelector((state: RootState) => state.scheduler);
+
+  const notifyRef = useRef(notify);
+  useEffect(() => { notifyRef.current = notify; }, [notify]);
 
   useEffect(() => {
+    if (hasFetched || loading) return;
     dispatch(setLoading(true));
     fetchEvents()
       .then((data) => {
@@ -20,6 +32,29 @@ export function useScheduler() {
         dispatch(setError(err instanceof Error ? err.message : 'Failed to load events'));
         dispatch(setLoading(false));
       });
+  }, [dispatch, hasFetched, loading]);
+
+  useEffect(() => {
+    const channel = subscribeToEvents({
+      onInsert: (event) => {
+        dispatch(addEvent(event));
+        notifyRef.current?.('Event created');
+      },
+      onUpdate: (event) => {
+        dispatch(updateEvent(event));
+        notifyRef.current?.('Event updated');
+      },
+      onDelete: (id) => {
+        dispatch(removeEvent(id));
+        notifyRef.current?.('Event deleted');
+      },
+    });
+    return () => { channel.unsubscribe(); };
+  }, [dispatch]);
+
+  // Reset hasFetched so the fetch effect re-runs on next render.
+  const refetch = useCallback(() => {
+    dispatch(resetFetch());
   }, [dispatch]);
 
   const createEvent = useCallback(
@@ -48,5 +83,5 @@ export function useScheduler() {
     [dispatch],
   );
 
-  return { events, loading, error, createEvent, updateEvent: updateEventFn, deleteEvent: deleteEventFn };
+  return { events, loading, error, refetch, createEvent, updateEvent: updateEventFn, deleteEvent: deleteEventFn };
 }

@@ -52,6 +52,7 @@ export function Sidebar({ handleLogout }: SidebarProps) {
       className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}
       animate={{ width: collapsed ? 60 : 220 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
+      onAnimationComplete={() => window.dispatchEvent(new Event('resize'))}
     >
       <div className="sidebar__logo">
         <span className="sidebar__logo-mark">N</span>

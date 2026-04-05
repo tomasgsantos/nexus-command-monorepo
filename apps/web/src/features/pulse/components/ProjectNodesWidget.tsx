@@ -10,7 +10,6 @@ export function ProjectNodesWidget() {
   const { projects, loading } = useRealtimeFeed();
   const { viewState, onMove } = usePulseMap();
   const navigate = useNavigate();
-
   const geoProjects = projects.filter((p) => p.lat != null && p.lng != null);
 
   return (

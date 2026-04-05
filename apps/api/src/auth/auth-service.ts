@@ -14,6 +14,11 @@ export async function signInDemo(): Promise<AuthUser> {
   return signIn(DEMO_EMAIL, DEMO_PASSWORD);
 }
 
+export async function seedDemoEvents(): Promise<void> {
+  const { error } = await supabase.rpc('seed_demo_events');
+  if (error) throw new Error(`seedDemoEvents failed: ${error.message}`);
+}
+
 export async function signOut(): Promise<void> {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;

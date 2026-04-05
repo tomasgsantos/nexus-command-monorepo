@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@nexus/ui';
 import { AppRoute } from '../../../constants/routes';
-import type { RootState } from '../../../store';
+import { useScheduler } from '../hooks/use-scheduler';
 import './SchedulerWidget.css';
 
 function formatTime(iso: string): string {
@@ -15,7 +14,7 @@ function formatDate(iso: string): string {
 
 export function SchedulerWidget() {
   const navigate = useNavigate();
-  const events = useSelector((state: RootState) => state.scheduler.events);
+  const { events } = useScheduler();
 
   const upcoming = events
     .filter((e) => new Date(e.start_at) >= new Date())
