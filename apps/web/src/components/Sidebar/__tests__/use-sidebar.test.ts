@@ -5,12 +5,17 @@
  * @vitest-environment jsdom
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
 import { useSidebar } from '../use-sidebar';
 
-/* ── Tests ─────────────────────────────────────────────────── */
+beforeEach(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn().mockReturnValue({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() }),
+  });
+});
 
 describe('useSidebar', () => {
   it('collapsed starts as false', () => {

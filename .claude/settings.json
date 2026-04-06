@@ -3,6 +3,6 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "true"
   },
   "enabledPlugins": {
-    "context-mode@context-mode": true
+    "context-mode@context-mode": false
   }
 }
