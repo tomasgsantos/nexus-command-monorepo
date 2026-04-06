@@ -1,9 +1,10 @@
-/* ── Sidebar ─────────────────────────────────────────────── */
+/* ── Sidebar (desktop only) ────────────────────────────────── */
 
 .sidebar {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  width: 220px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -13,6 +14,11 @@
   overflow: hidden;
   padding: var(--space-2) 0;
   margin: var(--space-1);
+  transition: width 0.25s ease;
+
+  &--collapsed {
+    width: 60px;
+  }
 
   /* ── Logo ──────────────────────────────────────────────── */
 
@@ -24,6 +30,7 @@
     border-bottom: 1px solid var(--color-outline-variant);
     white-space: nowrap;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   &__logo-mark {
@@ -126,6 +133,12 @@
     animation: sidebar-pulse-glow 2s ease-in-out infinite;
   }
 
+  /* ── Actions (sign out + toggle) ───────────────────────── */
+
+  &__actions {
+    display: contents;
+  }
+
   /* ── Toggle button ─────────────────────────────────────── */
 
   &__toggle {
@@ -159,20 +172,30 @@
 
   .app-signout-btn {
     background: transparent;
-    border: 1px solid var(--color-surface-high);
     color: var(--color-on-surface-variant);
-    border-radius: var(--radius-button);
-    padding: var(--space-1) var(--space-2);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: var(--space-1);
     cursor: pointer;
     font-family: var(--font-body);
     font-size: var(--text-label-sm);
     transition: border-color 0.15s ease, color 0.15s ease;
     width: fit-content;
     align-self: center;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       border-color: var(--color-primary);
       color: var(--color-primary);
+    }
+
+    > svg {
+      width: 20px;
+      height: 20px;
     }
   }
 }

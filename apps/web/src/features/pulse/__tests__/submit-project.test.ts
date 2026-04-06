@@ -27,7 +27,6 @@ describe('submitProject', () => {
     vi.clearAllMocks();
   });
 
-  // ── Address mode: geocodeAddress is called ──────────────
 
   it('calls geocodeAddress when locationMode is "type"', async () => {
     mockGeocodeAddress.mockResolvedValue({ lat: 51.5, lng: -0.12 });
@@ -51,7 +50,6 @@ describe('submitProject', () => {
     );
   });
 
-  // ── Pick mode: geocodeAddress is NOT called ─────────────
 
   it('does not call geocodeAddress when locationMode is "pick"', async () => {
     mockCreateProject.mockResolvedValue(makeProject());
@@ -74,7 +72,6 @@ describe('submitProject', () => {
     );
   });
 
-  // ── Create mode: calls createProject ────────────────────
 
   it('calls createProject when editingId is null', async () => {
     mockGeocodeAddress.mockResolvedValue({ lat: 48.85, lng: 2.35 });
@@ -98,7 +95,6 @@ describe('submitProject', () => {
     expect(result).toEqual(created);
   });
 
-  // ── Update mode: calls updateProject ────────────────────
 
   it('calls updateProject when editingId is provided', async () => {
     mockGeocodeAddress.mockResolvedValue({ lat: 35.68, lng: 139.69 });
@@ -127,7 +123,6 @@ describe('submitProject', () => {
     expect(result).toEqual(updated);
   });
 
-  // ── Error propagation from geocodeAddress ───────────────
 
   it('propagates geocodeAddress errors', async () => {
     mockGeocodeAddress.mockRejectedValue(new Error('Geocoding failed'));
@@ -149,7 +144,6 @@ describe('submitProject', () => {
     expect(mockCreateProject).not.toHaveBeenCalled();
   });
 
-  // ── Error propagation from createProject ────────────────
 
   it('propagates createProject errors', async () => {
     mockGeocodeAddress.mockResolvedValue({ lat: 0, lng: 0 });

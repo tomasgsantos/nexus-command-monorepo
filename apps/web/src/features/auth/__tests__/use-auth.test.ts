@@ -9,9 +9,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 
-/* ── Mocks ─────────────────────────────────────────────────── */
-
-// Must be called before the module under test is imported
 import {
   setupNexusApiMock,
   mockSignIn,
@@ -24,7 +21,6 @@ setupNexusApiMock();
 import { useAuth } from '../hooks/use-auth';
 import { mockUser } from '../__mocks__/user';
 
-/* ── Tests ──────────────────────────────────────────────────── */
 
 describe('useAuth', () => {
   beforeEach(() => {
@@ -32,7 +28,6 @@ describe('useAuth', () => {
   });
 
   it('starts with loading=true and user=null before session resolves', () => {
-    // Never-resolving promise keeps us in loading state
     mockGetSession.mockReturnValue(new Promise(() => {}));
 
     const { result } = renderHook(() => useAuth());

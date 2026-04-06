@@ -53,7 +53,6 @@ export function useScheduler(notify?: NotifyFn) {
     return () => { channel.unsubscribe(); };
   }, [dispatch]);
 
-  // Reset hasFetched so the fetch effect re-runs on next render.
   const refetch = useCallback(() => {
     dispatch(resetFetch());
   }, [dispatch]);

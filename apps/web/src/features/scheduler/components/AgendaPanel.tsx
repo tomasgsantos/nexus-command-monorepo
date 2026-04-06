@@ -85,8 +85,10 @@ export function AgendaPanel({ selectedDate, events, onDateChange, onNewEvent, on
       </div>
 
       <footer className="agenda__pulse">
-        <div className="agenda__pulse-dot" />
-        <span className="agenda__pulse-label">Live Strategy Pulse</span>
+        <span className='agenda__status'>
+          <div className="agenda__pulse-dot" />
+          <span className="agenda__pulse-label">Live Strategy Pulse</span>
+        </span>
         <div className="agenda__pulse-stats">
           <div className="agenda__stat">
             <span className="agenda__stat-value">{dayEvents.length}</span>

@@ -10,7 +10,6 @@ vi.stubEnv('VITE_MAPBOX_TOKEN', 'test-token');
 
 import { reverseGeocode } from '../utils/reverse-geocode';
 
-/* ── Helpers ─────────────────────────────────────────────── */
 
 function makeFeature(overrides?: Record<string, unknown>) {
   return {
@@ -36,7 +35,6 @@ function stubFetch(response: { ok: boolean; json?: () => Promise<unknown> }) {
   return mockFetch;
 }
 
-/* ── Tests ───────────────────────────────────────────────── */
 
 describe('reverseGeocode', () => {
   afterEach(() => {

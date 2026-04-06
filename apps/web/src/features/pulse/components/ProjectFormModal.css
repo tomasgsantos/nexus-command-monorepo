@@ -19,6 +19,12 @@
   pointer-events: auto;
 }
 
+@mixin mobile {
+  .project-form-overlay--awaiting-pick .project-form-modal {
+    display: none;
+  }
+}
+
 .project-form-modal {
   width: 400px;
   max-width: 90vw;
@@ -30,6 +36,11 @@
   outline: 1px solid var(--color-outline-variant);
   padding: var(--space-3);
   margin-left: var(--space-4);
+
+  @mixin mobile {
+    margin-left: unset;
+    margin: 0 auto;
+  }
 
   &__header {
     display: flex;

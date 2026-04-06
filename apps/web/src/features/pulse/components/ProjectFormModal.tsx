@@ -39,7 +39,7 @@ export function ProjectFormModal({ open, form, onClose, onSubmitSuccess }: Proje
     <AnimatePresence>
       {open && (
         <motion.div
-          className={`project-form-overlay${form.locationMode === 'pick' ? ' project-form-overlay--pick' : ''}`}
+          className={`project-form-overlay${form.locationMode === 'pick' ? ' project-form-overlay--pick' : ''}${form.locationMode === 'pick' && form.fields.lat == null ? ' project-form-overlay--awaiting-pick' : ''}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
