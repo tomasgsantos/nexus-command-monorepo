@@ -42,7 +42,7 @@ lerna-debug.log*
 supabase/.temp/
 
 # Claude Code
-.claude/settings.local.json
+.claude/
 
 # Misc
 .vercel/
