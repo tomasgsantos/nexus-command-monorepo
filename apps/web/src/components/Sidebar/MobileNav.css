@@ -15,7 +15,7 @@
   box-shadow: var(--glass-shadow);
   height: 44px;
   padding: 0 var(--space-1);
-  margin: var(--space-1);
+  margin: var(--space-1) var(--space-1) max(var(--space-1), env(safe-area-inset-bottom)) var(--space-1);
 
   &__logo-mark {
     display: flex;
@@ -133,7 +133,7 @@
   background: color-mix(in srgb, var(--color-surface-lowest) 94%, transparent);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  padding: var(--space-4) var(--space-4) var(--space-6);
+  padding: max(var(--space-4), env(safe-area-inset-top)) var(--space-4) max(var(--space-6), env(safe-area-inset-bottom));
   overflow: hidden;
 
   &-main {
