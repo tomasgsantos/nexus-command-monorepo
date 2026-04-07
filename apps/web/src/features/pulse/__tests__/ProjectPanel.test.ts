@@ -9,7 +9,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { createElement } from 'react';
 
-/* ── Mocks ─────────────────────────────────────────────────── */
 
 const mockDeleteProject = vi.fn();
 
@@ -21,7 +20,6 @@ import { ProjectPanel } from '../components/ProjectPanel';
 import { makeProjectWithOwner } from '../__mocks__/project-factories';
 import type { UserRole } from '@nexus/api';
 
-/* ── Helpers ───────────────────────────────────────────────── */
 
 function renderPanel(role: UserRole | null = 'admin') {
   const project = makeProjectWithOwner();
@@ -42,7 +40,6 @@ function renderPanel(role: UserRole | null = 'admin') {
   return { ...result, project, onClose, onEdit, onDeleted };
 }
 
-/* ── Tests ─────────────────────────────────────────────────── */
 
 describe('ProjectPanel', () => {
   beforeEach(() => {
@@ -54,7 +51,6 @@ describe('ProjectPanel', () => {
     cleanup();
   });
 
-  // ── Admin sees Edit and Delete buttons ──────────────────
 
   it('renders Edit and Delete buttons for admin role', () => {
     renderPanel('admin');
@@ -63,7 +59,6 @@ describe('ProjectPanel', () => {
     expect(screen.getByText('Delete')).toBeDefined();
   });
 
-  // ── Non-admin roles do NOT see Edit/Delete ──────────────
 
   it.each<UserRole>(['consultant', 'viewer', 'demo'])(
     'does not render Edit/Delete for %s role',
@@ -82,7 +77,6 @@ describe('ProjectPanel', () => {
     expect(screen.queryByText('Delete')).toBeNull();
   });
 
-  // ── Edit button triggers onEdit callback ────────────────
 
   it('calls onEdit with the project when Edit is clicked', () => {
     const { project, onEdit } = renderPanel('admin');
@@ -92,7 +86,6 @@ describe('ProjectPanel', () => {
     expect(onEdit).toHaveBeenCalledWith(project);
   });
 
-  // ── Delete requires confirmation step ───────────────────
 
   it('shows "Confirm Delete" on first click, does not call deleteProject', () => {
     renderPanel('admin');
@@ -103,14 +96,12 @@ describe('ProjectPanel', () => {
     expect(mockDeleteProject).not.toHaveBeenCalled();
   });
 
-  // ── Second click actually deletes ───────────────────────
 
   it('calls deleteProject and onDeleted on confirmation click', async () => {
     const { onDeleted } = renderPanel('admin');
 
-    // First click — enters confirmation
     fireEvent.click(screen.getByText('Delete'));
-    // Second click — confirms
+
     fireEvent.click(screen.getByText('Confirm Delete'));
 
     await waitFor(() => {
@@ -119,7 +110,6 @@ describe('ProjectPanel', () => {
     });
   });
 
-  // ── Renders project details ─────────────────────────────
 
   it('displays the project title and owner name', () => {
     renderPanel('admin');
@@ -128,7 +118,6 @@ describe('ProjectPanel', () => {
     expect(screen.getByText('Alice')).toBeDefined();
   });
 
-  // ── Close button calls onClose ──────────────────────────
 
   it('calls onClose when the close button is clicked', () => {
     const { onClose } = renderPanel('admin');

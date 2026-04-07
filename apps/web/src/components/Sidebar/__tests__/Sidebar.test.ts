@@ -5,7 +5,7 @@
  * @vitest-environment jsdom
  */
 
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { createElement, type ComponentProps } from 'react';
 
@@ -20,6 +20,8 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => routerState.navigate,
   useLocation: () => ({ pathname: routerState.pathname }),
 }));
+
+vi.mock('../use-mobile', () => ({ useIsMobile: () => false }));
 
 /* ── Component import (after mocks) ────────────────────────── */
 
@@ -50,17 +52,25 @@ function collapseViaToggle() {
 /* ── Tests ─────────────────────────────────────────────────── */
 
 describe('Sidebar', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockReturnValue({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() }),
+    });
+  });
+
   afterEach(() => {
     cleanup();
     routerState.navigate.mockReset();
     routerState.pathname = AppRoute.Pulse;
   });
 
-  it('renders nav items "The Pulse" and "Map" when expanded', () => {
+  it('renders nav items "The Pulse", "Map" and "Scheduler" when expanded', () => {
     renderSidebar();
 
     expect(screen.getByText('The Pulse')).toBeDefined();
     expect(screen.getByText('Map')).toBeDefined();
+    expect(screen.getByText('Scheduler')).toBeDefined();
   });
 
   it('does not render item labels when collapsed', () => {
@@ -69,6 +79,7 @@ describe('Sidebar', () => {
 
     expect(screen.queryByText('The Pulse')).toBeNull();
     expect(screen.queryByText('Map')).toBeNull();
+    expect(screen.queryByText('Scheduler')).toBeNull();
   });
 
   it('active item gets sidebar__item--active class when pathname matches', () => {
@@ -99,11 +110,11 @@ describe('Sidebar', () => {
     expect(screen.getByTitle('Expand')).toBeDefined();
   });
 
-  it('renders the "Sign out" button and calls handleLogout when clicked', () => {
+  it('renders the sign-out button and calls handleLogout when clicked', () => {
     const handleLogout = vi.fn();
-    renderSidebar({ handleLogout });
+    const { container } = renderSidebar({ handleLogout });
 
-    const signOutButton = screen.getByText('Sign out');
+    const signOutButton = container.querySelector('.app-signout-btn') as HTMLElement;
     expect(signOutButton).toBeDefined();
 
     fireEvent.click(signOutButton);
@@ -120,6 +131,7 @@ describe('Sidebar', () => {
     const titles = navButtons.map((btn) => btn.getAttribute('title'));
     expect(titles).toContain('The Pulse');
     expect(titles).toContain('Map');
+    expect(titles).toContain('Scheduler');
   });
 
   it('does not set title attribute on items when expanded', () => {

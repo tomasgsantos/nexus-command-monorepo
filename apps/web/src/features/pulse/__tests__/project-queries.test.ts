@@ -14,17 +14,12 @@ import {
   resetChain,
 } from '../__mocks__/supabase-client';
 
-// Mock the supabase client used by project-queries
 vi.mock('../../../../../../apps/api/src/supabase-client', () => ({
   supabase: { from: mockFrom },
 }));
 
 import { fetchProjects, fetchProject } from '@nexus/api';
 
-// ---------------------------------------------------------------------------
-// Fixtures
-// ---------------------------------------------------------------------------
-// Raw DB rows returned by the mock (profiles joined as nested object)
 const rawA = {
   id: 'p-1',
   title: 'Alpha',
@@ -45,13 +40,9 @@ const rawB = {
   profiles: { display_name: 'Marcus Okafor' },
 };
 
-// Shaped results after transformation in project-queries
 const projectA = { id: 'p-1', title: 'Alpha', health_status: 'on_track' as const, lat: 40.71, lng: -74.0, owner_id: 'u-1', owner_display_name: 'Sarah Chen' };
 const projectB = { id: 'p-2', title: 'Beta',  health_status: 'at_risk'  as const, lat: null,  lng: null,  owner_id: 'u-2', owner_display_name: 'Marcus Okafor' };
 
-// ---------------------------------------------------------------------------
-// fetchProjects
-// ---------------------------------------------------------------------------
 describe('fetchProjects', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -87,9 +78,6 @@ describe('fetchProjects', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// fetchProject
-// ---------------------------------------------------------------------------
 describe('fetchProject', () => {
   beforeEach(() => {
     vi.clearAllMocks();

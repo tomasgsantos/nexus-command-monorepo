@@ -8,7 +8,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
-/* ── Mocks ─────────────────────────────────────────────────── */
 
 const mockSubmitProject = vi.fn();
 const mockReverseGeocode = vi.fn();
@@ -24,13 +23,11 @@ vi.mock('../utils/reverse-geocode', () => ({
 import { useProjectForm } from '../hooks/use-project-form';
 import { makeProject, makeProjectWithOwner } from '../__mocks__/project-factories';
 
-/* ── Helpers ───────────────────────────────────────────────── */
 
 function renderForm() {
   return renderHook(() => useProjectForm());
 }
 
-/* ── Tests ─────────────────────────────────────────────────── */
 
 describe('useProjectForm', () => {
   beforeEach(() => {
@@ -38,7 +35,6 @@ describe('useProjectForm', () => {
     mockReverseGeocode.mockResolvedValue({ address: null, city: null, country: null });
   });
 
-  // ── Initial state ────────────────────────────────────────
 
   it('starts with empty fields and no editingId', () => {
     const { result } = renderForm();
@@ -54,7 +50,6 @@ describe('useProjectForm', () => {
     expect(result.current.error).toBeNull();
   });
 
-  // ── setField ────────────────────────────────────────────
 
   it('updates a single field via setField and clears error', async () => {
     const { result } = renderForm();
@@ -66,7 +61,6 @@ describe('useProjectForm', () => {
     expect(result.current.fields.title).toBe('New Title');
   });
 
-  // ── Validation: empty title ──────────────────────────────
 
   it('returns validation error when title is empty', () => {
     const { result } = renderForm();
@@ -75,7 +69,6 @@ describe('useProjectForm', () => {
     expect(err).toBe('Title is required');
   });
 
-  // ── Validation: no address in type mode ──────────────────
 
   it('returns validation error when address is empty in type mode', () => {
     const { result } = renderForm();
@@ -88,7 +81,6 @@ describe('useProjectForm', () => {
     expect(err).toBe('Address is required');
   });
 
-  // ── Validation: no location in pick mode ────────────────
 
   it('returns validation error when no coordinates in pick mode', () => {
     const { result } = renderForm();
@@ -102,7 +94,6 @@ describe('useProjectForm', () => {
     expect(err).toBe('Click the map to pick a location');
   });
 
-  // ── Validation: passes ──────────────────────────────────
 
   it('returns null when form is valid (type mode)', () => {
     const { result } = renderForm();
@@ -127,7 +118,6 @@ describe('useProjectForm', () => {
     expect(result.current.validate()).toBeNull();
   });
 
-  // ── Submit in create mode ───────────────────────────────
 
   it('calls submitProject with correct params in create mode', async () => {
     const created = makeProject({ id: 'new-1', title: 'Created' });
@@ -155,7 +145,6 @@ describe('useProjectForm', () => {
     );
   });
 
-  // ── Submit in update mode ───────────────────────────────
 
   it('calls submitProject with editingId in update mode', async () => {
     const existing = makeProjectWithOwner({ id: 'proj-99', title: 'Existing' });
@@ -180,7 +169,6 @@ describe('useProjectForm', () => {
     );
   });
 
-  // ── Submit sets validation error ────────────────────────
 
   it('sets error and throws on validation failure during submit', async () => {
     const { result } = renderForm();
@@ -199,7 +187,6 @@ describe('useProjectForm', () => {
     expect(mockSubmitProject).not.toHaveBeenCalled();
   });
 
-  // ── Submit propagates backend error ─────────────────────
 
   it('sets error from submitProject failure', async () => {
     mockSubmitProject.mockRejectedValue(new Error('Network error'));
@@ -225,7 +212,6 @@ describe('useProjectForm', () => {
     expect(result.current.submitting).toBe(false);
   });
 
-  // ── setMapCoordinates calls reverseGeocode ──────────────
 
   it('sets lat/lng immediately and calls reverseGeocode', async () => {
     type GeocodeResult = { address: string | null; city: string | null; country: string | null };
@@ -240,13 +226,11 @@ describe('useProjectForm', () => {
       result.current.setMapCoordinates(40.6782, -73.9442);
     });
 
-    // Coordinates set synchronously
     expect(result.current.fields.lat).toBe(40.6782);
     expect(result.current.fields.lng).toBe(-73.9442);
     expect(result.current.fields.address).toBe('40.6782, -73.9442');
     expect(mockReverseGeocode).toHaveBeenCalledWith(40.6782, -73.9442);
 
-    // Resolve the reverse geocode
     await act(async () => {
       resolveGeocode({ address: 'Brooklyn, NY', city: 'Brooklyn', country: 'US' });
     });
@@ -254,7 +238,6 @@ describe('useProjectForm', () => {
     expect(result.current.fields.address).toBe('Brooklyn, NY');
   });
 
-  // ── initCreate resets form ──────────────────────────────
 
   it('resets all fields when initCreate is called', () => {
     const { result } = renderForm();

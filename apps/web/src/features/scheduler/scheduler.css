@@ -5,6 +5,11 @@
   padding: var(--space-3);
   gap: var(--space-2);
   overflow: hidden;
+
+  @mixin mobile {
+    padding: var(--space-2);
+    overflow-y: auto;
+  }
 }
 
 .scheduler-header {
@@ -19,6 +24,10 @@
     color: var(--color-on-surface);
     margin: 0;
     line-height: 1;
+
+    @mixin mobile {
+      font-size: 1.25rem;
+    }
   }
 
   &__sub {
@@ -36,6 +45,19 @@
   grid-template-columns: 1fr 340px;
   gap: var(--space-2);
   min-height: 0;
+
+  @mixin mobile {
+    grid-template-columns: 100%;
+    overflow-y: auto;
+  }
+}
+
+.scheduler-calendar {
+  @mixin mobile {
+    order: 2;
+    min-height: 340px;
+    height: 50vh;
+  }
 }
 
 .scheduler-calendar {
@@ -92,6 +114,11 @@
   & .fc-toolbar {
     margin-bottom: var(--space-2);
     gap: var(--space-1);
+
+    @mixin mobile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   & .fc-toolbar-title {

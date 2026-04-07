@@ -186,7 +186,29 @@ When moving or creating tests, update relative import paths accordingly (e.g. `'
 
 ---
 
-## 11. Definition of Done
+## 11. Comments Policy (Non-Negotiable)
+
+Do not add comments to code. The code must be self-documenting through clear naming.
+
+The only exception is comments that clarify behaviour that is genuinely non-obvious and cannot be expressed in the code itself. Accepted cases:
+
+- Character encoding or rendering clarification:
+```ts
+// × renders as the multiplication sign ×
+fireEvent.click(screen.getByText('\u00D7'));
+```
+
+- Non-obvious async/timing mechanics where the pattern itself is opaque:
+```ts
+// Wait for the async handleSubmit to settle
+await new Promise((r) => setTimeout(r, 0));
+```
+
+No JSDoc, no section dividers, no inline explanations of what the code does, no `// TODO` unless the Lead explicitly requests it.
+
+---
+
+## 12. Definition of Done
 
 A task is done when:
 - [ ] Implementation matches the spec in `spec.md`

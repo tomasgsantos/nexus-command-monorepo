@@ -128,7 +128,6 @@ describe('ProjectFormModal', () => {
 
     renderModal({ form, onClose });
 
-    // The overlay is the outermost div rendered by the AnimatePresence mock
     const overlay = document.querySelector('.project-form-overlay') as HTMLElement;
     fireEvent.click(overlay);
 

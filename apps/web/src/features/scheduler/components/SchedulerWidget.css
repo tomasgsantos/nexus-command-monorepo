@@ -5,13 +5,17 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: var(--radius-card);
-  padding: var(--space-2);
   gap: var(--space-1);
+  position: relative;
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background-color: #1d1d1d;
+    padding: var(--space-2) var(--space-2) 0;
   }
 
   &__title {
@@ -30,6 +34,7 @@
     color: var(--color-on-surface-variant);
     margin: var(--space-2) 0 0;
     text-align: center;
+    padding: 0 var(--space-2) var(--space-2);
   }
 
   &__list {
@@ -39,6 +44,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+    padding: 0 var(--space-2) var(--space-2);
+    overflow: auto;
   }
 
   &__item {

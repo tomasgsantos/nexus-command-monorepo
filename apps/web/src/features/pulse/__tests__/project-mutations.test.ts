@@ -17,7 +17,6 @@ import {
 
 const { mockGetUser } = vi.hoisted(() => ({ mockGetUser: vi.fn() }));
 
-// Mock the supabase client at the actual file location
 vi.mock('../../../../../../apps/api/src/supabase-client', () => ({
   supabase: { from: mockFrom, auth: { getUser: mockGetUser } },
 }));
@@ -25,7 +24,6 @@ vi.mock('../../../../../../apps/api/src/supabase-client', () => ({
 import { createProject, updateProject, deleteProject } from '@nexus/api';
 import { makeProject, makeCreateInput, makeUpdateInput } from '../__mocks__/project-factories';
 
-/* ── Tests ─────────────────────────────────────────────────── */
 
 describe('project-mutations', () => {
   beforeEach(() => {
@@ -34,7 +32,6 @@ describe('project-mutations', () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
   });
 
-  // ── createProject ───────────────────────────────────────
 
   describe('createProject', () => {
     it('inserts data and returns the created project', async () => {
@@ -58,7 +55,6 @@ describe('project-mutations', () => {
     });
   });
 
-  // ── updateProject ───────────────────────────────────────
 
   describe('updateProject', () => {
     it('updates data by id and returns the updated project', async () => {
@@ -83,7 +79,6 @@ describe('project-mutations', () => {
     });
   });
 
-  // ── deleteProject ───────────────────────────────────────
 
   describe('deleteProject', () => {
     it('deletes by id and returns void', async () => {
