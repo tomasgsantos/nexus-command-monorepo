@@ -1,1 +1,0 @@
-import{r as a}from"./index-DoaNitGS.js";function l(){const[e,c]=a.useState([]),r=a.useCallback((s,t="success")=>{const o=crypto.randomUUID();c(i=>[...i,{id:o,message:s,type:t}])},[]),n=a.useCallback(s=>{c(t=>t.filter(o=>o.id!==s))},[]);return{toasts:e,notify:r,dismiss:n}}export{l as u};
