@@ -24,11 +24,6 @@ vi.mock('react-router-dom', () => ({
 const sidebarState = vi.hoisted(() => ({ collapsed: true, toggle: vi.fn() }));
 vi.mock('../use-sidebar', () => ({ useSidebar: () => sidebarState }));
 
-vi.mock('../../../assets/icons/map.svg?react', () => ({ default: () => createElement('span', {}, 'MapIcon') }));
-vi.mock('../../../assets/icons/pulse.svg?react', () => ({ default: () => createElement('span', {}, 'PulseIcon') }));
-vi.mock('../../../assets/icons/arrow.svg?react', () => ({ default: () => createElement('span', {}, 'ArrowIcon') }));
-vi.mock('../../../assets/icons/calendar.svg?react', () => ({ default: () => createElement('span', {}, 'CalendarIcon') }));
-vi.mock('../../../assets/icons/logout.svg?react', () => ({ default: () => createElement('span', {}, 'LogoutIcon') }));
 
 import { MobileNav } from '../MobileNav';
 
