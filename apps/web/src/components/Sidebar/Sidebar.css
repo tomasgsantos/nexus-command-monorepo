@@ -174,7 +174,7 @@
     background: transparent;
     color: var(--color-on-surface-variant);
     border: 1px solid transparent;
-    border-radius: 20px;
+    border-radius: 6px;
     padding: var(--space-1);
     cursor: pointer;
     font-family: var(--font-body);
@@ -182,8 +182,8 @@
     transition: border-color 0.15s ease, color 0.15s ease;
     width: fit-content;
     align-self: center;
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;

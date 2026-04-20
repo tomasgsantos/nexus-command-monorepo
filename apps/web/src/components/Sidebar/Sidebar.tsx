@@ -115,19 +115,17 @@ function DesktopSidebar({ handleLogout }: SidebarProps) {
 
       <div className="sidebar__actions">
         <AnimatePresence>
-          {!collapsed && (
-            <motion.button
-              type="button"
-              className="app-signout-btn"
-              onClick={handleLogout}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <LogoutIcon />
-            </motion.button>
-          )}
+          <motion.button
+            type="button"
+            className="app-signout-btn"
+            onClick={handleLogout}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            <LogoutIcon />
+          </motion.button>
         </AnimatePresence>
 
         <button
